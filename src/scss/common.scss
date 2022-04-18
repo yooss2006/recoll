@@ -1,0 +1,46 @@
+@charset "utf-8";
+
+@import "reset";
+
+@font-face {
+  font-family: "HSGyeoulNoonkott20";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/HSGyeoulNoonkott20.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "GangwonEdu_OTFBoldA";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/GangwonEdu_OTFBoldA.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+$title: "HSGyeoulNoonkott20";
+$gray: #d6daff, #abaecc, #6b6d80;
+$purple: #f2c777, #f2e6d8;
+$imgUrl: "../assets/";
+
+//html 요소의 범위 표시
+@mixin line {
+  background-color: floralwhite;
+  outline: 1px solid red;
+}
+
+@mixin flex($a: stretch, $j: space-between, $w: nowrap) {
+  display: flex;
+  justify-content: $j;
+  align-items: $a;
+  flex-wrap: $w;
+}
+
+.hide {
+  display: none;
+}
+
+.App {
+  font-family: "GangwonEdu_OTFBoldA";
+}
+// @import
