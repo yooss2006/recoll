@@ -1,0 +1,57 @@
+@charset "utf-8";
+
+.DiaryList {
+  h2 {
+    font-size: 1.25em;
+    padding-left: 0.75em;
+  }
+  .wrapper {
+    width: 100%;
+    background-color: white;
+    border-radius: 5px;
+    overflow: hidden;
+    position: relative;
+    .slideBtn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      &.leftBtn {
+        left: 0;
+      }
+      &.rightBtn {
+        right: 0;
+      }
+      svg {
+        width: 2em;
+        height: 2em;
+      }
+    }
+  }
+  .slideWrapper {
+    width: 400%;
+    @include flex;
+  }
+  .DiaryItem {
+    width: 100%;
+    padding: 1em 1.5em;
+    box-sizing: border-box;
+    .title {
+      @include flex($a: center, $j: start);
+      margin-bottom: 1em;
+      svg {
+        width: 2em;
+        height: 2em;
+        margin-right: 1em;
+      }
+      h3 {
+        font-size: 20px;
+      }
+    }
+    p {
+      padding: 1em;
+      border-radius: 5px;
+      background-color: nth($purple, 2);
+      color: nth($gray, 1);
+    }
+  }
+}

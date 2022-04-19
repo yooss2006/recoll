@@ -1,0 +1,11 @@
+@charset "utf-8";
+
+.container {
+  width: 60%;
+  min-width: 500px;
+  background-color: nth($gray, 1);
+  padding: 15px;
+  margin: 10px auto;
+  box-sizing: border-box;
+  border-radius: 5px;
+}

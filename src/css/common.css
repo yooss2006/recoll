@@ -125,8 +125,85 @@ q:after {
   display: none;
 }
 
-.App {
+body {
   font-family: "GangwonEdu_OTFBoldA";
+  color: #383f8f;
+}
+
+h2,
+h3,
+h4 {
+  font-family: "HSGyeoulNoonkott20";
+}
+
+.container {
+  width: 60%;
+  min-width: 500px;
+  background-color: #d6daff;
+  padding: 15px;
+  margin: 10px auto;
+  box-sizing: border-box;
+  border-radius: 5px;
+}
+
+.DiaryList h2 {
+  font-size: 1.25em;
+  padding-left: 0.75em;
+}
+.DiaryList .wrapper {
+  width: 100%;
+  background-color: white;
+  border-radius: 5px;
+  overflow: hidden;
+  position: relative;
+}
+.DiaryList .wrapper .slideBtn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.DiaryList .wrapper .slideBtn.leftBtn {
+  left: 0;
+}
+.DiaryList .wrapper .slideBtn.rightBtn {
+  right: 0;
+}
+.DiaryList .wrapper .slideBtn svg {
+  width: 2em;
+  height: 2em;
+}
+.DiaryList .slideWrapper {
+  width: 400%;
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  flex-wrap: nowrap;
+}
+.DiaryList .DiaryItem {
+  width: 100%;
+  padding: 1em 1.5em;
+  box-sizing: border-box;
+}
+.DiaryList .DiaryItem .title {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  flex-wrap: nowrap;
+  margin-bottom: 1em;
+}
+.DiaryList .DiaryItem .title svg {
+  width: 2em;
+  height: 2em;
+  margin-right: 1em;
+}
+.DiaryList .DiaryItem .title h3 {
+  font-size: 20px;
+}
+.DiaryList .DiaryItem p {
+  padding: 1em;
+  border-radius: 5px;
+  background-color: #383f8f;
+  color: #d6daff;
 }
 
 /*# sourceMappingURL=common.css.map */
