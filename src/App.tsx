@@ -7,13 +7,13 @@ import DiaryList from "./components/DiaryList";
 const dummyData: Data[] = [
   {
     id: 0,
-    title: "2022,04,18",
+    title: "2022-04-13",
     desc: "아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다",
     emotion: 1,
   },
-  { id: 1, title: "2022,04,19", desc: "아주 좋다", emotion: 2 },
-  { id: 2, title: "2022,04,20", desc: "아주 좋다", emotion: 3 },
-  { id: 3, title: "2022,04,21", desc: "아주 좋다", emotion: 1 },
+  { id: 1, title: "2022-04-20", desc: "아주 좋다", emotion: 2 },
+  { id: 2, title: "2022-03-20", desc: "아주 좋다", emotion: 3 },
+  { id: 3, title: "2021-04-20", desc: "아주 좋다", emotion: 1 },
 ];
 
 export const DiaryDataContext = React.createContext<Data[] | null>(null);
