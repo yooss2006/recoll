@@ -93,7 +93,7 @@ button {
   color: inherit;
 }
 
-.blind,
+.blind, .DiaryEditor .todayEmotion dd .emotionList input[type=radio],
 hr,
 legend {
   position: absolute;
@@ -125,8 +125,186 @@ q:after {
   display: none;
 }
 
-.App {
+body {
   font-family: "GangwonEdu_OTFBoldA";
+  color: #383f8f;
+}
+
+h2,
+h3,
+h4 {
+  font-family: "HSGyeoulNoonkott20";
+}
+
+.container {
+  width: 40%;
+  min-width: 500px;
+  background-color: #d6daff;
+  box-shadow: 0 0 7px 2px #8a93ff;
+  padding: 15px 15px 5px;
+  margin: 10px auto;
+  box-sizing: border-box;
+  border-radius: 5px;
+}
+
+.DiaryList h2 {
+  padding-left: 0.75em;
+  margin-bottom: 0.5em;
+}
+.DiaryList .wrapper {
+  width: 100%;
+  background-color: white;
+  border-radius: 5px;
+  overflow: hidden;
+  position: relative;
+}
+.DiaryList .wrapper .slideBtn {
+  height: 100%;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 100;
+  background-color: white;
+}
+.DiaryList .wrapper .slideBtn.leftBtn {
+  left: 0;
+}
+.DiaryList .wrapper .slideBtn.rightBtn {
+  right: 0;
+}
+.DiaryList .wrapper .slideBtn svg {
+  width: 2em;
+  height: 2em;
+  color: #8a93ff;
+}
+.DiaryList .wrapper .slideBtn:hover svg {
+  color: #383f8f;
+}
+.DiaryList .slideWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  flex-wrap: nowrap;
+  transition: 0.7s all ease-out;
+}
+.DiaryList .DiaryItem {
+  width: 100%;
+  padding: 1em 2.5em;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+.DiaryList .DiaryItem .content {
+  flex-grow: 1;
+}
+.DiaryList .DiaryItem .titleDesc {
+  display: block;
+  font-size: 0.8em;
+  margin-bottom: 2em;
+}
+.DiaryList .DiaryItem .titleDesc::after, .DiaryList .DiaryItem .titleDesc::before {
+  content: "-";
+}
+.DiaryList .DiaryItem .title {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  flex-wrap: nowrap;
+  margin-bottom: 1em;
+}
+.DiaryList .DiaryItem .title svg {
+  width: 2em;
+  height: 2em;
+  margin-right: 0.5em;
+}
+.DiaryList .DiaryItem .title h3 {
+  font-size: 20px;
+}
+.DiaryList .DiaryItem .desc {
+  padding: 1em;
+  border-radius: 5px;
+  background-color: #383f8f;
+  color: #d6daff;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+.DiaryEditor {
+  margin: 2em 0 1em;
+}
+.DiaryEditor .todayEmotion {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  flex-wrap: nowrap;
+  margin-bottom: 1em;
+}
+.DiaryEditor .todayEmotion dt {
+  flex-basis: 50%;
+  text-align: end;
+}
+.DiaryEditor .todayEmotion dd {
+  flex-grow: 1;
+}
+.DiaryEditor .todayEmotion dd .emotionList {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+.DiaryEditor .todayEmotion dd .emotionList li:nth-child(2) {
+  margin: 0 1.5em;
+}
+.DiaryEditor .todayEmotion dd .emotionList svg {
+  width: 2em;
+  height: 2em;
+  color: #8a93ff;
+  cursor: pointer;
+}
+.DiaryEditor .todayEmotion dd .emotionList input:checked + label svg {
+  color: #383f8f;
+}
+.DiaryEditor textarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 5px 10px;
+  box-sizing: border-box;
+  border-radius: 5px;
+  border: none;
+  resize: none;
+  color: #383f8f;
+  font-size: 16px;
+  word-spacing: -3px;
+}
+.DiaryEditor .editorBtnWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: nowrap;
+  margin-top: 1em;
+}
+.DiaryEditor .editorBtnWrapper button {
+  padding: 20px 0;
+  margin: 0 5px;
+  border-radius: 5px;
+  flex-grow: 1;
+  border: 2px solid #d6daff;
+  box-sizing: border-box;
+  transition: 0.5s all;
+  color: white;
+}
+.DiaryEditor .editorBtnWrapper button.reset {
+  background-color: #383f8f;
+}
+.DiaryEditor .editorBtnWrapper button.submit {
+  background-color: #8a93ff;
+}
+.DiaryEditor .editorBtnWrapper button:hover {
+  color: #383f8f;
+  background: white;
+  border: 2px solid #8a93ff;
 }
 
 /*# sourceMappingURL=common.css.map */

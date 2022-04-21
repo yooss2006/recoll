@@ -20,7 +20,7 @@
 
 $title: "HSGyeoulNoonkott20";
 $gray: #d6daff, #abaecc, #6b6d80;
-$purple: #f2c777, #f2e6d8;
+$purple: #8a93ff, #383f8f;
 $imgUrl: "../assets/";
 
 //html 요소의 범위 표시
@@ -40,7 +40,14 @@ $imgUrl: "../assets/";
   display: none;
 }
 
-.App {
+body {
   font-family: "GangwonEdu_OTFBoldA";
+  color: nth($purple, 2);
 }
-// @import
+
+h2,
+h3,
+h4 {
+  font-family: $title;
+}
+@import "app", "diaryList", "diaryEditor";

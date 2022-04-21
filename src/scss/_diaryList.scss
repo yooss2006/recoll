@@ -1,0 +1,80 @@
+@charset "utf-8";
+
+.DiaryList {
+  h2 {
+    padding-left: 0.75em;
+    margin-bottom: 0.5em;
+  }
+  .wrapper {
+    width: 100%;
+    background-color: white;
+    border-radius: 5px;
+    overflow: hidden;
+    position: relative;
+    .slideBtn {
+      height: 100%;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 100;
+      background-color: white;
+
+      &.leftBtn {
+        left: 0;
+      }
+      &.rightBtn {
+        right: 0;
+      }
+      svg {
+        width: 2em;
+        height: 2em;
+        color: nth($purple, 1);
+      }
+      &:hover svg {
+        color: nth($purple, 2);
+      }
+    }
+  }
+  .slideWrapper {
+    @include flex;
+    transition: 0.7s all ease-out;
+  }
+  .DiaryItem {
+    width: 100%;
+    padding: 1em 2.5em;
+    box-sizing: border-box;
+    @include flex($a: center, $j: start);
+    .content {
+      flex-grow: 1;
+    }
+    .titleDesc {
+      display: block;
+      font-size: 0.8em;
+      margin-bottom: 2em;
+      &::after,
+      &::before {
+        content: "-";
+      }
+    }
+    .title {
+      @include flex($a: center, $j: start);
+      margin-bottom: 1em;
+      svg {
+        width: 2em;
+        height: 2em;
+        margin-right: 0.5em;
+      }
+      h3 {
+        font-size: 20px;
+      }
+    }
+    .desc {
+      padding: 1em;
+      border-radius: 5px;
+      background-color: nth($purple, 2);
+      color: nth($gray, 1);
+      word-break: keep-all;
+      overflow-wrap: break-word;
+    }
+  }
+}
