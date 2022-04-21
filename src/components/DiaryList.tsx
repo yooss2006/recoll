@@ -1,26 +1,11 @@
-import React, { useState } from "react";
-import { Data } from "../util/type";
+import { useState } from "react";
+import { DataArrayProps } from "../util/type";
 import DiaryItem from "./DiaryItem";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
-import { dateArray, getStringDate } from "../util/date";
-type DiaryListProps = {
-  data: Data[];
-};
+import { SlideWrapper } from "../styles/styled";
 
-const DiaryList = ({ data }: DiaryListProps) => {
+const DiaryList = ({ data }: DataArrayProps) => {
   const [slideNumber, setSlideNumber] = useState(0);
-  const curDate = new Date();
-
-  const filterData = data
-    .filter((item) =>
-      dateArray(curDate).includes(getStringDate(new Date(item.title)))
-    )
-    .sort((a: Data, b: Data): number => {
-      return (
-        parseInt(b.title.split("-").join("")) -
-        parseInt(a.title.split("-").join(""))
-      );
-    });
 
   const handleSlideNumber = (direction: string) => {
     if (direction === "left" && slideNumber !== 0)
@@ -43,11 +28,16 @@ const DiaryList = ({ data }: DiaryListProps) => {
         >
           <MdKeyboardArrowLeft />
         </button>
-        <div className={["slideWrapper", `slide${slideNumber}`].join(" ")}>
-          {filterData.map((it) => (
-            <DiaryItem key={it.id} data={it} />
+
+        <SlideWrapper
+          width={data.length}
+          translateX={100 / data.length}
+          className={["slideWrapper", `slide${slideNumber}`].join(" ")}
+        >
+          {data.map((it, index) => (
+            <DiaryItem key={index} data={it} />
           ))}
-        </div>
+        </SlideWrapper>
 
         <button
           className={[
@@ -63,6 +53,10 @@ const DiaryList = ({ data }: DiaryListProps) => {
       </div>
     </section>
   );
+};
+
+DiaryList.defaultProps = {
+  data: [],
 };
 
 export default DiaryList;

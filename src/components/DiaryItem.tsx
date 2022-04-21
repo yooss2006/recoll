@@ -1,12 +1,9 @@
 import { useEffect, useState } from "react";
-import { Data } from "../util/type";
+import { DataProps } from "../util/type";
 import Emotion from "./Emotion";
 import { dateArray } from "../util/date";
-type DiaryItemProps = {
-  data: Data;
-};
 
-const DiaryItem = ({ data }: DiaryItemProps) => {
+const DiaryItem = ({ data }: DataProps) => {
   const [whatItemDay, setWhatItemDay] = useState("오늘");
   useEffect(() => {
     switch (dateArray(new Date()).indexOf(data.title)) {
@@ -34,7 +31,7 @@ const DiaryItem = ({ data }: DiaryItemProps) => {
     <article className="DiaryItem">
       <div className="content">
         <div className="title">
-          <Emotion emotionNumber={data.emotion} />
+          <Emotion emotionWord={data.emotion} />
           <h3>{data.title}</h3>
         </div>
         <p className="desc">

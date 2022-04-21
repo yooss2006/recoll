@@ -93,7 +93,7 @@ button {
   color: inherit;
 }
 
-.blind,
+.blind, .DiaryEditor .todayEmotion dd .emotionList input[type=radio],
 hr,
 legend {
   position: absolute;
@@ -140,7 +140,8 @@ h4 {
   width: 40%;
   min-width: 500px;
   background-color: #d6daff;
-  padding: 15px;
+  box-shadow: 0 0 7px 2px #8a93ff;
+  padding: 15px 15px 5px;
   margin: 10px auto;
   box-sizing: border-box;
   border-radius: 5px;
@@ -180,24 +181,11 @@ h4 {
   color: #383f8f;
 }
 .DiaryList .slideWrapper {
-  width: 400%;
   display: flex;
   justify-content: space-between;
   align-items: stretch;
   flex-wrap: nowrap;
   transition: 0.7s all ease-out;
-}
-.DiaryList .slideWrapper.slide1 {
-  transform: translateX(-25%);
-}
-.DiaryList .slideWrapper.slide2 {
-  transform: translateX(-50%);
-}
-.DiaryList .slideWrapper.slide3 {
-  transform: translateX(-75%);
-}
-.DiaryList .slideWrapper.slide4 {
-  transform: translateX(-100%);
 }
 .DiaryList .DiaryItem {
   width: 100%;
@@ -241,6 +229,82 @@ h4 {
   color: #d6daff;
   word-break: keep-all;
   overflow-wrap: break-word;
+}
+
+.DiaryEditor {
+  margin: 2em 0 1em;
+}
+.DiaryEditor .todayEmotion {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  flex-wrap: nowrap;
+  margin-bottom: 1em;
+}
+.DiaryEditor .todayEmotion dt {
+  flex-basis: 50%;
+  text-align: end;
+}
+.DiaryEditor .todayEmotion dd {
+  flex-grow: 1;
+}
+.DiaryEditor .todayEmotion dd .emotionList {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+.DiaryEditor .todayEmotion dd .emotionList li:nth-child(2) {
+  margin: 0 1.5em;
+}
+.DiaryEditor .todayEmotion dd .emotionList svg {
+  width: 2em;
+  height: 2em;
+  color: #8a93ff;
+  cursor: pointer;
+}
+.DiaryEditor .todayEmotion dd .emotionList input:checked + label svg {
+  color: #383f8f;
+}
+.DiaryEditor textarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 5px 10px;
+  box-sizing: border-box;
+  border-radius: 5px;
+  border: none;
+  resize: none;
+  color: #383f8f;
+  font-size: 16px;
+  word-spacing: -3px;
+}
+.DiaryEditor .editorBtnWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: nowrap;
+  margin-top: 1em;
+}
+.DiaryEditor .editorBtnWrapper button {
+  padding: 20px 0;
+  margin: 0 5px;
+  border-radius: 5px;
+  flex-grow: 1;
+  border: 2px solid #d6daff;
+  box-sizing: border-box;
+  transition: 0.5s all;
+  color: white;
+}
+.DiaryEditor .editorBtnWrapper button.reset {
+  background-color: #383f8f;
+}
+.DiaryEditor .editorBtnWrapper button.submit {
+  background-color: #8a93ff;
+}
+.DiaryEditor .editorBtnWrapper button:hover {
+  color: #383f8f;
+  background: white;
+  border: 2px solid #8a93ff;
 }
 
 /*# sourceMappingURL=common.css.map */

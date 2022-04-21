@@ -4,7 +4,8 @@
   width: 40%;
   min-width: 500px;
   background-color: nth($gray, 1);
-  padding: 15px;
+  box-shadow: 0 0 7px 2px nth($purple, 1);
+  padding: 15px 15px 5px;
   margin: 10px auto;
   box-sizing: border-box;
   border-radius: 5px;

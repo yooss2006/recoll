@@ -1,0 +1,71 @@
+@charset "utf-8";
+
+.DiaryEditor {
+  margin: 2em 0 1em;
+  .todayEmotion {
+    @include flex($a: center, $j: start);
+    margin-bottom: 1em;
+    dt {
+      flex-basis: 50%;
+      text-align: end;
+    }
+    dd {
+      flex-grow: 1;
+      .emotionList {
+        @include flex($a: center, $j: center);
+        li:nth-child(2) {
+          margin: 0 1.5em;
+        }
+        svg {
+          width: 2em;
+          height: 2em;
+          color: nth($purple, 1);
+          cursor: pointer;
+        }
+        input[type="radio"] {
+          @extend .blind;
+        }
+        input:checked + label svg {
+          color: nth($purple, 2);
+        }
+      }
+    }
+  }
+  textarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 5px 10px;
+    box-sizing: border-box;
+    border-radius: 5px;
+    border: none;
+    resize: none;
+    color: nth($purple, 2);
+    font-size: 16px;
+    word-spacing: -3px;
+  }
+  .editorBtnWrapper {
+    @include flex($a: center);
+    margin-top: 1em;
+    button {
+      padding: 20px 0;
+      margin: 0 5px;
+      border-radius: 5px;
+      flex-grow: 1;
+      border: 2px solid nth($gray, 1);
+      box-sizing: border-box;
+      transition: 0.5s all;
+      color: white;
+      &.reset {
+        background-color: nth($purple, 2);
+      }
+      &.submit {
+        background-color: nth($purple, 1);
+      }
+      &:hover {
+        color: nth($purple, 2);
+        background: white;
+        border: 2px solid nth($purple, 1);
+      }
+    }
+  }
+}

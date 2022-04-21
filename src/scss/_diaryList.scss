@@ -36,21 +36,8 @@
     }
   }
   .slideWrapper {
-    width: 400%;
     @include flex;
     transition: 0.7s all ease-out;
-    &.slide1 {
-      transform: translateX(-25%);
-    }
-    &.slide2 {
-      transform: translateX(-50%);
-    }
-    &.slide3 {
-      transform: translateX(-75%);
-    }
-    &.slide4 {
-      transform: translateX(-100%);
-    }
   }
   .DiaryItem {
     width: 100%;
