@@ -42,6 +42,9 @@
     color: nth($purple, 2);
     font-size: 16px;
     word-spacing: -3px;
+    &::placeholder {
+      color: nth($gray, 2);
+    }
   }
   .editorBtnWrapper {
     @include flex($a: center);

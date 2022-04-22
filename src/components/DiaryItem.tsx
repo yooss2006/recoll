@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { DataProps } from "../util/type";
 import Emotion from "./Emotion";
-import { dateArray } from "../util/date";
+import { DataProps } from "../util/type";
+import { dateArray, getStringDate } from "../util/date";
 
-const DiaryItem = ({ data }: DataProps) => {
+const DiaryItem = ({ data, setEditorMode }: DataProps) => {
   const [whatItemDay, setWhatItemDay] = useState("오늘");
+  const isToday = getStringDate(new Date()) === data.title;
   useEffect(() => {
     switch (dateArray(new Date()).indexOf(data.title)) {
       case 0:
@@ -25,20 +26,32 @@ const DiaryItem = ({ data }: DataProps) => {
       default:
         break;
     }
-  }, [data.title]);
+  }, [data]);
+
+  const handleEdit = () => {
+    setEditorMode("edit");
+  };
 
   return (
     <article className="DiaryItem">
-      <div className="content">
+      <header>
         <div className="title">
           <Emotion emotionWord={data.emotion} />
           <h3>{data.title}</h3>
         </div>
-        <p className="desc">
-          <strong className="titleDesc">{whatItemDay}의 일기</strong>
-          {data.desc}
-        </p>
-      </div>
+        <ul className={["btns", isToday ? "" : "hide"].join(" ")}>
+          <li>
+            <button onClick={handleEdit}>수정</button>
+          </li>
+          <li>
+            <button>삭제</button>
+          </li>
+        </ul>
+      </header>
+      <p className="desc">
+        <strong className="titleDesc">{whatItemDay}의 일기</strong>
+        {data.desc}
+      </p>
     </article>
   );
 };

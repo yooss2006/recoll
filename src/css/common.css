@@ -121,7 +121,7 @@ q:after {
   font-weight: normal;
   font-style: normal;
 }
-.hide {
+.hide, .DiaryList .DiaryItem header .btns.hide {
   display: none;
 }
 
@@ -191,13 +191,36 @@ h4 {
   width: 100%;
   padding: 1em 2.5em;
   box-sizing: border-box;
+}
+.DiaryList .DiaryItem header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: nowrap;
+  margin-bottom: 1em;
+}
+.DiaryList .DiaryItem header .title {
   display: flex;
   justify-content: start;
   align-items: center;
   flex-wrap: nowrap;
 }
-.DiaryList .DiaryItem .content {
-  flex-grow: 1;
+.DiaryList .DiaryItem header .title svg {
+  width: 2em;
+  height: 2em;
+  margin-right: 0.5em;
+}
+.DiaryList .DiaryItem header .title h3 {
+  font-size: 20px;
+}
+.DiaryList .DiaryItem header .btns {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+.DiaryList .DiaryItem header .btns button {
+  margin: 0px 10px;
 }
 .DiaryList .DiaryItem .titleDesc {
   display: block;
@@ -206,21 +229,6 @@ h4 {
 }
 .DiaryList .DiaryItem .titleDesc::after, .DiaryList .DiaryItem .titleDesc::before {
   content: "-";
-}
-.DiaryList .DiaryItem .title {
-  display: flex;
-  justify-content: start;
-  align-items: center;
-  flex-wrap: nowrap;
-  margin-bottom: 1em;
-}
-.DiaryList .DiaryItem .title svg {
-  width: 2em;
-  height: 2em;
-  margin-right: 0.5em;
-}
-.DiaryList .DiaryItem .title h3 {
-  font-size: 20px;
 }
 .DiaryList .DiaryItem .desc {
   padding: 1em;
@@ -277,6 +285,9 @@ h4 {
   color: #383f8f;
   font-size: 16px;
   word-spacing: -3px;
+}
+.DiaryEditor textarea::placeholder {
+  color: #abaecc;
 }
 .DiaryEditor .editorBtnWrapper {
   display: flex;

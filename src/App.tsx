@@ -6,19 +6,18 @@ import DiaryList from "./components/DiaryList";
 import { dateArray, getStringDate } from "./util/date";
 
 const dummyData: Data[] = [
-  { id: 0, title: "2021-04-22", desc: "아주 좋다", emotion: "보통" },
-  { id: 1, title: "2022-03-21", desc: "아주 좋다", emotion: "나쁨" },
+  { title: "2021-04-22", desc: "아주 좋다", emotion: "보통" },
+  { title: "2022-03-21", desc: "아주 좋다", emotion: "나쁨" },
   {
-    id: 2,
     title: "2022-04-14",
     desc: "아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다",
     emotion: "좋음",
   },
-  // { id: 3, title: "2022-04-21", desc: "아주 좋다", emotion: "보통" },
+  { title: "2022-04-21", desc: "아주 좋다", emotion: "보통" },
 ];
 
 const reducer = (state: Data[], action: ReducerType) => {
-  let newState = [];
+  let newState: Data[] = [];
   switch (action.type) {
     case "CREATE": {
       const newItem = {
@@ -27,32 +26,30 @@ const reducer = (state: Data[], action: ReducerType) => {
       newState = [...state, newItem];
       break;
     }
+    case "EDIT": {
+      newState = state.map((item) =>
+        item.title === action.data.title ? { ...action.data } : item
+      );
+      break;
+    }
     // case "REMOVE": {
     //   newState = state.filter((item) => item.id !== action.targetId);
     //   break;
     // }
-    // case "EDIT": {
-    //   newState = state.map((item) =>
-    //     item.id === action.data.id ? { ...action.data } : item
-    //   );
+
     //   break;
     // }
     default:
       return state;
   }
-  localStorage.setItem("diary", JSON.stringify(newState));
   return newState;
 };
 
 function App() {
   const [data, dispatch] = useReducer(reducer, dummyData);
+  console.log(data);
+  const [editorMode, setEditorMode] = useState("create");
   const curDate = new Date();
-  const dataId = useRef(0);
-  useEffect(() => {
-    if (data.length >= 1) {
-      dataId.current = data[data.length - 1].id + 1;
-    }
-  }, []);
 
   const filterData = data
     .filter((item) =>
@@ -69,8 +66,18 @@ function App() {
     dispatch({
       type: "CREATE",
       data: {
-        id: dataId.current,
         title: date,
+        desc: content,
+        emotion: emotion,
+      },
+    });
+  };
+
+  const onEdit = (title: string, content: string, emotion: string) => {
+    dispatch({
+      type: "EDIT",
+      data: {
+        title: title,
         desc: content,
         emotion: emotion,
       },
@@ -81,8 +88,14 @@ function App() {
     <div className="App">
       <div className="container">
         <h1 className="blind">회상</h1>
-        <DiaryList data={filterData} />
-        <DiaryEditor data={filterData} onCreate={onCreate} />
+        <DiaryList data={filterData} setEditorMode={setEditorMode} />
+        <DiaryEditor
+          data={filterData}
+          onCreate={onCreate}
+          onEdit={onEdit}
+          editorMode={editorMode}
+          setEditorMode={setEditorMode}
+        />
       </div>
     </div>
   );

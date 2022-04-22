@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { DataArrayProps } from "../util/type";
+import { DataListProps } from "../util/type";
 import DiaryItem from "./DiaryItem";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 import { SlideWrapper } from "../styles/styled";
 
-const DiaryList = ({ data }: DataArrayProps) => {
+const DiaryList = ({ data, setEditorMode }: DataListProps) => {
   const [slideNumber, setSlideNumber] = useState(0);
 
   const handleSlideNumber = (direction: string) => {
@@ -34,8 +34,12 @@ const DiaryList = ({ data }: DataArrayProps) => {
           translateX={100 / data.length}
           className={["slideWrapper", `slide${slideNumber}`].join(" ")}
         >
-          {data.map((it, index) => (
-            <DiaryItem key={index} data={it} />
+          {data.map((item) => (
+            <DiaryItem
+              key={item.title}
+              data={item}
+              setEditorMode={setEditorMode}
+            />
           ))}
         </SlideWrapper>
 
