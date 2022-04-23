@@ -4,7 +4,7 @@ import DiaryItem from "./DiaryItem";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 import { SlideWrapper } from "../styles/styled";
 
-const DiaryList = ({ data, setEditorMode }: DataListProps) => {
+const DiaryList = ({ data, setEditorMode, onRemove }: DataListProps) => {
   const [slideNumber, setSlideNumber] = useState(0);
 
   const handleSlideNumber = (direction: string) => {
@@ -29,24 +29,31 @@ const DiaryList = ({ data, setEditorMode }: DataListProps) => {
           <MdKeyboardArrowLeft />
         </button>
 
-        <SlideWrapper
-          width={data.length}
-          translateX={100 / data.length}
-          className={["slideWrapper", `slide${slideNumber}`].join(" ")}
-        >
-          {data.map((item) => (
-            <DiaryItem
-              key={item.title}
-              data={item}
-              setEditorMode={setEditorMode}
-            />
-          ))}
-        </SlideWrapper>
+        {data.length > 0 ? (
+          <SlideWrapper
+            width={data.length}
+            translateX={100 / data.length}
+            className={["slideWrapper", `slide${slideNumber}`].join(" ")}
+          >
+            {data.map((item) => (
+              <DiaryItem
+                key={item.title}
+                data={item}
+                setEditorMode={setEditorMode}
+                onRemove={onRemove}
+              />
+            ))}
+          </SlideWrapper>
+        ) : (
+          <div className="space">
+            오늘, 어제, 일주일 전, 한달 전, 일년 전의 데이터가 없습니다.
+          </div>
+        )}
 
         <button
           className={[
             "slideBtn rightBtn",
-            slideNumber === data.length - 1 ? "hide" : "",
+            slideNumber === data.length - 1 || data.length < 1 ? "hide" : "",
           ].join(" ")}
           onClick={() => {
             handleSlideNumber("right");

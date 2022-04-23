@@ -183,7 +183,7 @@ h4 {
 .DiaryList .slideWrapper {
   display: flex;
   justify-content: space-between;
-  align-items: stretch;
+  align-items: center;
   flex-wrap: nowrap;
   transition: 0.7s all ease-out;
 }
@@ -237,6 +237,9 @@ h4 {
   color: #d6daff;
   word-break: keep-all;
   overflow-wrap: break-word;
+}
+.DiaryList .space {
+  padding: 1.5em 1em;
 }
 
 .DiaryEditor {

@@ -6,14 +6,14 @@ import DiaryList from "./components/DiaryList";
 import { dateArray, getStringDate } from "./util/date";
 
 const dummyData: Data[] = [
-  { title: "2021-04-22", desc: "아주 좋다", emotion: "보통" },
-  { title: "2022-03-21", desc: "아주 좋다", emotion: "나쁨" },
-  {
-    title: "2022-04-14",
-    desc: "아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다",
-    emotion: "좋음",
-  },
-  { title: "2022-04-21", desc: "아주 좋다", emotion: "보통" },
+  // { title: "2021-04-23", desc: "아주 좋다", emotion: "보통" },
+  // { title: "2022-03-23", desc: "아주 좋다", emotion: "나쁨" },
+  // {
+  //   title: "2022-04-22",
+  //   desc: "아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다",
+  //   emotion: "좋음",
+  // },
+  // { title: "2022-04-23", desc: "아주 좋다", emotion: "보통" },
 ];
 
 const reducer = (state: Data[], action: ReducerType) => {
@@ -32,13 +32,10 @@ const reducer = (state: Data[], action: ReducerType) => {
       );
       break;
     }
-    // case "REMOVE": {
-    //   newState = state.filter((item) => item.id !== action.targetId);
-    //   break;
-    // }
-
-    //   break;
-    // }
+    case "REMOVE": {
+      newState = state.filter((item) => item.title !== action.data.title);
+      break;
+    }
     default:
       return state;
   }
@@ -84,11 +81,26 @@ function App() {
     });
   };
 
+  const onRemove = (title: string) => {
+    dispatch({
+      type: "REMOVE",
+      data: {
+        title: title,
+        desc: "",
+        emotion: "",
+      },
+    });
+  };
+
   return (
     <div className="App">
       <div className="container">
         <h1 className="blind">회상</h1>
-        <DiaryList data={filterData} setEditorMode={setEditorMode} />
+        <DiaryList
+          data={filterData}
+          setEditorMode={setEditorMode}
+          onRemove={onRemove}
+        />
         <DiaryEditor
           data={filterData}
           onCreate={onCreate}

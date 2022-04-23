@@ -35,7 +35,7 @@
     }
   }
   .slideWrapper {
-    @include flex;
+    @include flex($a: center);
     transition: 0.7s all ease-out;
   }
   .DiaryItem {
@@ -47,7 +47,6 @@
       margin-bottom: 1em;
       .title {
         @include flex($a: center, $j: start);
-
         svg {
           width: 2em;
           height: 2em;
@@ -85,5 +84,8 @@
       word-break: keep-all;
       overflow-wrap: break-word;
     }
+  }
+  .space {
+    padding: 1.5em 1em;
   }
 }

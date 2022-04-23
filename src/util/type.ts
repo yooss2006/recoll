@@ -7,11 +7,12 @@ export type Data = {
 export type DataProps = {
   data: Data;
   setEditorMode: React.Dispatch<React.SetStateAction<string>>;
+  onRemove: (title: string) => void;
 };
-
 export type DataListProps = {
   data: Data[];
   setEditorMode: React.Dispatch<React.SetStateAction<string>>;
+  onRemove: (title: string) => void;
 };
 
 export type DataEditorProps = {

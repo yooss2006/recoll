@@ -3,7 +3,7 @@ import Emotion from "./Emotion";
 import { DataProps } from "../util/type";
 import { dateArray, getStringDate } from "../util/date";
 
-const DiaryItem = ({ data, setEditorMode }: DataProps) => {
+const DiaryItem = ({ data, setEditorMode, onRemove }: DataProps) => {
   const [whatItemDay, setWhatItemDay] = useState("오늘");
   const isToday = getStringDate(new Date()) === data.title;
   useEffect(() => {
@@ -32,6 +32,12 @@ const DiaryItem = ({ data, setEditorMode }: DataProps) => {
     setEditorMode("edit");
   };
 
+  const handleRemove = () => {
+    if (window.confirm("정말로 삭제할까요?")) {
+      onRemove(data.title);
+    }
+  };
+
   return (
     <article className="DiaryItem">
       <header>
@@ -44,7 +50,7 @@ const DiaryItem = ({ data, setEditorMode }: DataProps) => {
             <button onClick={handleEdit}>수정</button>
           </li>
           <li>
-            <button>삭제</button>
+            <button onClick={handleRemove}>삭제</button>
           </li>
         </ul>
       </header>
