@@ -3,6 +3,7 @@ import { EmotionProps } from "../util/type";
 
 const Emotion = ({ emotionWord }: EmotionProps) => {
   const emotion = emotionList.find((item) => item.desc === emotionWord);
+
   if (emotion) {
     return (
       <div className="Emotion">

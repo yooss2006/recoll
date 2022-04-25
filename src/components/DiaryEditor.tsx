@@ -1,38 +1,34 @@
 import { useEffect, useRef, useState } from "react";
+import { useContextOnFunc } from "../App";
 import { getStringDate } from "../util/date";
 import { emotionList } from "../util/emotionList";
 import { DataEditorProps } from "../util/type";
 
-const DiaryEditor = ({
-  data,
-  onCreate,
-  editorMode,
-  setEditorMode,
-  onEdit,
-}: DataEditorProps) => {
+const DiaryEditor = ({ firstData, isEditorMode }: DataEditorProps) => {
   const [emotion, setEmotion] = useState("보통");
   const [content, setContent] = useState("");
+  const onFunc = useContextOnFunc();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
-    if (editorMode === "edit") {
-      setEmotion(data[0].emotion);
-      setContent(data[0].desc);
+    if (isEditorMode) {
+      setEmotion(firstData.emotion);
+      setContent(firstData.desc);
     }
-  }, [editorMode]);
+  }, [isEditorMode]);
 
   const handleReset = () => {
     setContent("");
     setEmotion("보통");
-    setEditorMode("create");
+    onFunc.setIsEditorMode(false);
   };
 
   const checkWriteTodayDiary = () => {
-    const todayDiaryIndex = data.findIndex(
-      (item) => item.title === getStringDate(new Date())
-    );
-    if (todayDiaryIndex > -1) return true;
-    else return false;
+    if (firstData) {
+      const todayDiaryIndex = firstData.title === getStringDate(new Date());
+      if (todayDiaryIndex) return true;
+      else return false;
+    }
   };
 
   const handleSubmit = () => {
@@ -40,20 +36,17 @@ const DiaryEditor = ({
       textareaRef.current.focus();
       return;
     }
-
-    if (editorMode === "edit") {
-      onEdit(getStringDate(new Date()), content, emotion);
+    if (isEditorMode) {
+      onFunc.onEdit(getStringDate(new Date()), content, emotion);
       handleReset();
       return;
     }
-
     if (checkWriteTodayDiary()) {
       alert("오늘의 일기를 작성하셨습니다.");
       handleReset();
       return;
     }
-
-    onCreate(getStringDate(new Date()), content, emotion);
+    onFunc.onCreate(getStringDate(new Date()), content, emotion);
     handleReset();
   };
 

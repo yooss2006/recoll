@@ -6,28 +6,31 @@ export type Data = {
 
 export type DataProps = {
   data: Data;
-  setEditorMode: React.Dispatch<React.SetStateAction<string>>;
-  onRemove: (title: string) => void;
-};
-export type DataListProps = {
-  data: Data[];
-  setEditorMode: React.Dispatch<React.SetStateAction<string>>;
-  onRemove: (title: string) => void;
 };
 
 export type DataEditorProps = {
-  data: Data[];
-  onCreate: (date: string, content: string, emotion: string) => void;
-  onEdit: (title: string, content: string, emotion: string) => void;
-  editorMode: string;
-  setEditorMode: React.Dispatch<React.SetStateAction<string>>;
+  firstData: Data;
+  isEditorMode: boolean;
 };
 
 export type EmotionProps = {
   emotionWord: string;
 };
 
-export type ReducerType = {
-  type: String;
-  data: Data;
-};
+export type ReducerType =
+  | {
+      type: "INIT";
+      data: Data[];
+    }
+  | {
+      type: "CREATE" | "EDIT" | "REMOVE";
+      data: Data;
+    };
+
+export type onDataFunc = (
+  title: string,
+  content: string,
+  emotion: string
+) => void;
+
+export type onRemoveFunc = (title: string) => void;

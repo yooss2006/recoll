@@ -11,22 +11,40 @@ export const getStringDate = (date: Date): string => {
   return `${year}-${month}-${day}`;
 };
 
-export const dateArray = (curDate: Date): string[] => {
+export const dateArray = (): string[] => {
+  const date = new Date();
   return [
     getStringDate(
-      new Date(curDate.getFullYear(), curDate.getMonth(), curDate.getDate())
+      new Date(date.getFullYear(), date.getMonth(), date.getDate())
     ),
     getStringDate(
-      new Date(curDate.getFullYear(), curDate.getMonth(), curDate.getDate() - 1)
+      new Date(date.getFullYear(), date.getMonth(), date.getDate() - 1)
     ),
     getStringDate(
-      new Date(curDate.getFullYear(), curDate.getMonth(), curDate.getDate() - 7)
+      new Date(date.getFullYear(), date.getMonth(), date.getDate() - 7)
     ),
     getStringDate(
-      new Date(curDate.getFullYear(), curDate.getMonth() - 1, curDate.getDate())
+      new Date(date.getFullYear(), date.getMonth() - 1, date.getDate())
     ),
     getStringDate(
-      new Date(curDate.getFullYear() - 1, curDate.getMonth(), curDate.getDate())
+      new Date(date.getFullYear() - 1, date.getMonth(), date.getDate())
     ),
   ];
+};
+
+export const deteName = (title: string) => {
+  switch (dateArray().indexOf(title)) {
+    case 0:
+      return "오늘";
+    case 1:
+      return "어제";
+    case 2:
+      return "일주일 전";
+    case 3:
+      return "한달 전";
+    case 4:
+      return "일년 전";
+    default:
+      return "";
+  }
 };

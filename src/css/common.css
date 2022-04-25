@@ -130,6 +130,7 @@ body {
   color: #383f8f;
 }
 
+h1,
 h2,
 h3,
 h4 {
@@ -146,19 +147,18 @@ h4 {
   box-sizing: border-box;
   border-radius: 5px;
 }
-
-.DiaryList h2 {
+.container h1 {
   padding-left: 0.75em;
   margin-bottom: 0.5em;
 }
-.DiaryList .wrapper {
-  width: 100%;
+
+.DiaryList {
   background-color: white;
   border-radius: 5px;
   overflow: hidden;
   position: relative;
 }
-.DiaryList .wrapper .slideBtn {
+.DiaryList .slideBtn {
   height: 100%;
   position: absolute;
   top: 50%;
@@ -166,18 +166,18 @@ h4 {
   z-index: 100;
   background-color: white;
 }
-.DiaryList .wrapper .slideBtn.leftBtn {
+.DiaryList .slideBtn.leftBtn {
   left: 0;
 }
-.DiaryList .wrapper .slideBtn.rightBtn {
+.DiaryList .slideBtn.rightBtn {
   right: 0;
 }
-.DiaryList .wrapper .slideBtn svg {
+.DiaryList .slideBtn svg {
   width: 2em;
   height: 2em;
   color: #8a93ff;
 }
-.DiaryList .wrapper .slideBtn:hover svg {
+.DiaryList .slideBtn:hover svg {
   color: #383f8f;
 }
 .DiaryList .slideWrapper {
@@ -185,7 +185,10 @@ h4 {
   justify-content: space-between;
   align-items: center;
   flex-wrap: nowrap;
-  transition: 0.7s all ease-out;
+  transition: 0.7s transform ease-out;
+}
+.DiaryList .noneData {
+  padding: 1.5em 1em;
 }
 .DiaryList .DiaryItem {
   width: 100%;
@@ -211,7 +214,7 @@ h4 {
   margin-right: 0.5em;
 }
 .DiaryList .DiaryItem header .title h3 {
-  font-size: 20px;
+  font-size: 1.25em;
 }
 .DiaryList .DiaryItem header .btns {
   display: flex;
@@ -237,9 +240,6 @@ h4 {
   color: #d6daff;
   word-break: keep-all;
   overflow-wrap: break-word;
-}
-.DiaryList .space {
-  padding: 1.5em 1em;
 }
 
 .DiaryEditor {

@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { DataListProps } from "../util/type";
+import { useContextState } from "../App";
 import DiaryItem from "./DiaryItem";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 import { SlideWrapper } from "../styles/styled";
 
-const DiaryList = ({ data, setEditorMode, onRemove }: DataListProps) => {
+const DiaryList = () => {
   const [slideNumber, setSlideNumber] = useState(0);
+  const data = useContextState();
 
   const handleSlideNumber = (direction: string) => {
     if (direction === "left" && slideNumber !== 0)
@@ -16,58 +17,47 @@ const DiaryList = ({ data, setEditorMode, onRemove }: DataListProps) => {
 
   return (
     <section className="DiaryList">
-      <h2>Recoll-Diary</h2>
-      <div className="wrapper">
-        <button
-          className={["slideBtn leftBtn", slideNumber === 0 ? "hide" : ""].join(
-            " "
-          )}
-          onClick={() => {
-            handleSlideNumber("left");
-          }}
-        >
-          <MdKeyboardArrowLeft />
-        </button>
-
-        {data.length > 0 ? (
-          <SlideWrapper
-            width={data.length}
-            translateX={100 / data.length}
-            className={["slideWrapper", `slide${slideNumber}`].join(" ")}
-          >
-            {data.map((item) => (
-              <DiaryItem
-                key={item.title}
-                data={item}
-                setEditorMode={setEditorMode}
-                onRemove={onRemove}
-              />
-            ))}
-          </SlideWrapper>
-        ) : (
-          <div className="space">
-            오늘, 어제, 일주일 전, 한달 전, 일년 전의 데이터가 없습니다.
-          </div>
+      <h2 className="blind">일기 리스트</h2>
+      <button
+        className={["slideBtn leftBtn", slideNumber === 0 ? "hide" : ""].join(
+          " "
         )}
+        onClick={() => {
+          handleSlideNumber("left");
+        }}
+      >
+        <MdKeyboardArrowLeft />
+      </button>
 
-        <button
-          className={[
-            "slideBtn rightBtn",
-            slideNumber === data.length - 1 || data.length < 1 ? "hide" : "",
-          ].join(" ")}
-          onClick={() => {
-            handleSlideNumber("right");
-          }}
+      {data.length ? (
+        <SlideWrapper
+          width={data.length}
+          translateX={100 / data.length}
+          className={["slideWrapper", `slide${slideNumber}`].join(" ")}
         >
-          <MdKeyboardArrowRight />
-        </button>
-      </div>
+          {data.map((item) => (
+            <DiaryItem key={item.title} data={item} />
+          ))}
+        </SlideWrapper>
+      ) : (
+        <div className="noneData">
+          오늘, 어제, 일주일 전, 한달 전, 일년 전의 데이터가 없습니다.
+        </div>
+      )}
+
+      <button
+        className={[
+          "slideBtn rightBtn",
+          slideNumber === data.length - 1 || !data.length ? "hide" : "",
+        ].join(" ")}
+        onClick={() => {
+          handleSlideNumber("right");
+        }}
+      >
+        <MdKeyboardArrowRight />
+      </button>
     </section>
   );
-};
-
-DiaryList.defaultProps = {
-  data: [],
 };
 
 export default DiaryList;

@@ -1,29 +1,22 @@
-import { useEffect, useReducer, useRef, useState } from "react";
-import "./css/common.css";
-import DiaryEditor from "./components/DiaryEditor";
-import { Data, ReducerType } from "./util/type";
-import DiaryList from "./components/DiaryList";
+import React, { useContext, useEffect, useReducer, useState } from "react";
+import { Data, ReducerType, onDataFunc, onRemoveFunc } from "./util/type";
 import { dateArray, getStringDate } from "./util/date";
+import DiaryEditor from "./components/DiaryEditor";
+import DiaryList from "./components/DiaryList";
+import "./css/common.css";
 
-const dummyData: Data[] = [
-  // { title: "2021-04-23", desc: "아주 좋다", emotion: "보통" },
-  // { title: "2022-03-23", desc: "아주 좋다", emotion: "나쁨" },
-  // {
-  //   title: "2022-04-22",
-  //   desc: "아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다",
-  //   emotion: "좋음",
-  // },
-  // { title: "2022-04-23", desc: "아주 좋다", emotion: "보통" },
-];
-
+//useReducer
 const reducer = (state: Data[], action: ReducerType) => {
   let newState: Data[] = [];
   switch (action.type) {
+    case "INIT": {
+      return action.data;
+    }
     case "CREATE": {
       const newItem = {
         ...action.data,
       };
-      newState = [...state, newItem];
+      newState = [newItem, ...state];
       break;
     }
     case "EDIT": {
@@ -39,31 +32,61 @@ const reducer = (state: Data[], action: ReducerType) => {
     default:
       return state;
   }
+  localStorage.setItem("diaryData", JSON.stringify(newState));
   return newState;
 };
 
-function App() {
-  const [data, dispatch] = useReducer(reducer, dummyData);
-  console.log(data);
-  const [editorMode, setEditorMode] = useState("create");
-  const curDate = new Date();
+//Context API
+const DiaryStateContext = React.createContext<Data[] | null>(null);
+const DiaryDispatchContext = React.createContext<{
+  onCreate: onDataFunc;
+  onEdit: onDataFunc;
+  onRemove: onRemoveFunc;
+  setIsEditorMode: React.Dispatch<React.SetStateAction<boolean>>;
+} | null>(null);
 
-  const filterData = data
-    .filter((item) =>
-      dateArray(curDate).includes(getStringDate(new Date(item.title)))
-    )
-    .sort((a: Data, b: Data): number => {
-      return (
-        parseInt(b.title.split("-").join("")) -
-        parseInt(a.title.split("-").join(""))
-      );
-    });
+//custom hook으로 null 방지
+export const useContextState = () => {
+  const state = useContext(DiaryStateContext);
+  if (!state) throw new Error("Cannot find state");
+  return state;
+};
+export const useContextOnFunc = () => {
+  const func = useContext(DiaryDispatchContext);
+  if (!func) throw new Error("Cannot find func");
+  return func;
+};
 
-  const onCreate = (date: string, content: string, emotion: string): void => {
+export function App() {
+  const [data, dispatch] = useReducer(reducer, []);
+  const [isEditorMode, setIsEditorMode] = useState(false);
+
+  useEffect(() => {
+    const localData = localStorage.getItem("diaryData");
+    if (localData) {
+      console.log(localData);
+      const diaryList: Data[] = JSON.parse(localData);
+      if (diaryList.length >= 1) {
+        const filterData = diaryList
+          .filter((item) =>
+            dateArray().includes(getStringDate(new Date(item.title)))
+          )
+          .sort((a: Data, b: Data): number => {
+            return (
+              parseInt(b.title.split("-").join("")) -
+              parseInt(a.title.split("-").join(""))
+            );
+          });
+        dispatch({ type: "INIT", data: filterData });
+      }
+    }
+  }, []);
+
+  const onCreate = (title: string, content: string, emotion: string): void => {
     dispatch({
       type: "CREATE",
       data: {
-        title: date,
+        title: title,
         desc: content,
         emotion: emotion,
       },
@@ -93,23 +116,19 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <div className="container">
-        <h1 className="blind">회상</h1>
-        <DiaryList
-          data={filterData}
-          setEditorMode={setEditorMode}
-          onRemove={onRemove}
-        />
-        <DiaryEditor
-          data={filterData}
-          onCreate={onCreate}
-          onEdit={onEdit}
-          editorMode={editorMode}
-          setEditorMode={setEditorMode}
-        />
-      </div>
-    </div>
+    <DiaryStateContext.Provider value={data}>
+      <DiaryDispatchContext.Provider
+        value={{ onCreate, onEdit, onRemove, setIsEditorMode }}
+      >
+        <div className="App">
+          <main className="container">
+            <h1>Recoll-Diary</h1>
+            <DiaryList />
+            <DiaryEditor firstData={data[0]} isEditorMode={isEditorMode} />
+          </main>
+        </div>
+      </DiaryDispatchContext.Provider>
+    </DiaryStateContext.Provider>
   );
 }
 

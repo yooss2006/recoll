@@ -1,40 +1,26 @@
 import { useEffect, useState } from "react";
 import Emotion from "./Emotion";
+import { deteName, getStringDate } from "../util/date";
+import { useContextOnFunc } from "../App";
 import { DataProps } from "../util/type";
-import { dateArray, getStringDate } from "../util/date";
 
-const DiaryItem = ({ data, setEditorMode, onRemove }: DataProps) => {
+const DiaryItem = ({ data }: DataProps) => {
   const [whatItemDay, setWhatItemDay] = useState("오늘");
-  const isToday = getStringDate(new Date()) === data.title;
+  const onfunc = useContextOnFunc();
+
   useEffect(() => {
-    switch (dateArray(new Date()).indexOf(data.title)) {
-      case 0:
-        setWhatItemDay("오늘");
-        break;
-      case 1:
-        setWhatItemDay("어제");
-        break;
-      case 2:
-        setWhatItemDay("일주일 전");
-        break;
-      case 3:
-        setWhatItemDay("한달 전");
-        break;
-      case 4:
-        setWhatItemDay("일년 전");
-        break;
-      default:
-        break;
-    }
+    setWhatItemDay(deteName(data.title));
   }, [data]);
 
+  const isToday = getStringDate(new Date()) === data.title;
+
   const handleEdit = () => {
-    setEditorMode("edit");
+    onfunc.setIsEditorMode(true);
   };
 
   const handleRemove = () => {
     if (window.confirm("정말로 삭제할까요?")) {
-      onRemove(data.title);
+      onfunc.onRemove(data.title);
     }
   };
 
@@ -60,6 +46,10 @@ const DiaryItem = ({ data, setEditorMode, onRemove }: DataProps) => {
       </p>
     </article>
   );
+};
+
+DiaryItem.defaultProps = {
+  data: {},
 };
 
 export default DiaryItem;
