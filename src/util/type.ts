@@ -34,3 +34,18 @@ export type onDataFunc = (
 ) => void;
 
 export type onRemoveFunc = (title: string) => void;
+
+export type CheckSelectModeProps = {
+  viewMode: {
+    name: string;
+    isActivate: boolean;
+  }[];
+  setViewMode: React.Dispatch<
+    React.SetStateAction<
+      {
+        name: string;
+        isActivate: boolean;
+      }[]
+    >
+  >;
+};

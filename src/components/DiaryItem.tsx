@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Emotion from "./Emotion";
 import { deteName, getStringDate } from "../util/date";
 import { useContextOnFunc } from "../App";
@@ -14,15 +14,15 @@ const DiaryItem = ({ data }: DataProps) => {
 
   const isToday = getStringDate(new Date()) === data.title;
 
-  const handleEdit = () => {
+  const handleEdit = useCallback(() => {
     onfunc.setIsEditorMode(true);
-  };
+  }, []);
 
-  const handleRemove = () => {
+  const handleRemove = useCallback(() => {
     if (window.confirm("정말로 삭제할까요?")) {
       onfunc.onRemove(data.title);
     }
-  };
+  }, []);
 
   return (
     <article className="DiaryItem">
@@ -52,4 +52,4 @@ DiaryItem.defaultProps = {
   data: {},
 };
 
-export default DiaryItem;
+export default React.memo(DiaryItem);

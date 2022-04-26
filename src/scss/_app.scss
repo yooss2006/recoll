@@ -1,16 +1,19 @@
 @charset "utf-8";
 
 .container {
-  width: 40%;
-  min-width: 500px;
+  width: fit-content;
   background-color: nth($gray, 1);
   box-shadow: 0 0 7px 2px nth($purple, 1);
   padding: 15px 15px 5px;
   margin: 10px auto;
   box-sizing: border-box;
   border-radius: 5px;
+  @include flex;
+  header {
+    @include flex($a: center);
+    margin-bottom: 0.5em;
+  }
   h1 {
     padding-left: 0.75em;
-    margin-bottom: 0.5em;
   }
 }

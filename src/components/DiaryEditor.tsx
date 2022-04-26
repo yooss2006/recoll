@@ -1,25 +1,22 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useContextOnFunc } from "../App";
 import { getStringDate } from "../util/date";
 import { emotionList } from "../util/emotionList";
 import { DataEditorProps } from "../util/type";
 
 const DiaryEditor = ({ firstData, isEditorMode }: DataEditorProps) => {
-  const [emotion, setEmotion] = useState("보통");
-  const [content, setContent] = useState("");
+  const [content, setContent] = useState({ emotion: "보통", desc: "" });
   const onFunc = useContextOnFunc();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
     if (isEditorMode) {
-      setEmotion(firstData.emotion);
-      setContent(firstData.desc);
+      setContent({ emotion: firstData.emotion, desc: firstData.desc });
     }
   }, [isEditorMode]);
 
   const handleReset = () => {
-    setContent("");
-    setEmotion("보통");
+    setContent({ emotion: "보통", desc: "" });
     onFunc.setIsEditorMode(false);
   };
 
@@ -32,21 +29,24 @@ const DiaryEditor = ({ firstData, isEditorMode }: DataEditorProps) => {
   };
 
   const handleSubmit = () => {
-    if (content.length < 5 && textareaRef.current) {
+    if (content.desc.length < 5 && textareaRef.current) {
       textareaRef.current.focus();
       return;
     }
+    //수정모드
     if (isEditorMode) {
-      onFunc.onEdit(getStringDate(new Date()), content, emotion);
+      onFunc.onEdit(getStringDate(new Date()), content.desc, content.emotion);
       handleReset();
       return;
     }
+    //오늘의 일기가 있을 경우
     if (checkWriteTodayDiary()) {
       alert("오늘의 일기를 작성하셨습니다.");
       handleReset();
       return;
     }
-    onFunc.onCreate(getStringDate(new Date()), content, emotion);
+    //글 작성 모드
+    onFunc.onCreate(getStringDate(new Date()), content.desc, content.emotion);
     handleReset();
   };
 
@@ -63,8 +63,10 @@ const DiaryEditor = ({ firstData, isEditorMode }: DataEditorProps) => {
                   type="radio"
                   name="emotionCheck"
                   id={"emotionRadio" + item.emotion_id}
-                  checked={emotion === item.desc}
-                  onChange={() => setEmotion(item.desc)}
+                  checked={content.emotion === item.desc}
+                  onChange={() =>
+                    setContent({ ...content, emotion: item.desc })
+                  }
                 />
                 <label htmlFor={"emotionRadio" + item.emotion_id}>
                   {item.icon}
@@ -75,13 +77,13 @@ const DiaryEditor = ({ firstData, isEditorMode }: DataEditorProps) => {
         </dd>
       </dl>
       <textarea
-        value={content}
+        value={content.desc}
         placeholder={
           checkWriteTodayDiary()
             ? "오늘의 일기를 작성하셨습니다."
             : "오늘의 일기를 작성해보는 건 어떨까요?"
         }
-        onChange={(e) => setContent(e.target.value)}
+        onChange={(e) => setContent({ ...content, desc: e.target.value })}
         ref={textareaRef}
       ></textarea>
       <div className="editorBtnWrapper">
@@ -96,4 +98,4 @@ const DiaryEditor = ({ firstData, isEditorMode }: DataEditorProps) => {
   );
 };
 
-export default DiaryEditor;
+export default React.memo(DiaryEditor);

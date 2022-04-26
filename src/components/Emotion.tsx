@@ -1,3 +1,4 @@
+import React from "react";
 import { emotionList } from "../util/emotionList";
 import { EmotionProps } from "../util/type";
 
@@ -12,7 +13,7 @@ const Emotion = ({ emotionWord }: EmotionProps) => {
       </div>
     );
   } else {
-    return <div className="Emotion">없습니다.</div>;
+    return <div className="Emotion">X</div>;
   }
 };
 
@@ -20,4 +21,4 @@ Emotion.defaultProps = {
   emotionWord: "보통",
 };
 
-export default Emotion;
+export default React.memo(Emotion);

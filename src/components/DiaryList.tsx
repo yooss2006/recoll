@@ -1,12 +1,15 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useContextState } from "../App";
 import DiaryItem from "./DiaryItem";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 import { SlideWrapper } from "../styles/styled";
+import { dateArray, getStringDate } from "../util/date";
 
 const DiaryList = () => {
   const [slideNumber, setSlideNumber] = useState(0);
-  const data = useContextState();
+  const data = useContextState().filter((item) =>
+    dateArray().includes(getStringDate(new Date(item.title)))
+  );
 
   const handleSlideNumber = (direction: string) => {
     if (direction === "left" && slideNumber !== 0)
@@ -60,4 +63,4 @@ const DiaryList = () => {
   );
 };
 
-export default DiaryList;
+export default React.memo(DiaryList);
