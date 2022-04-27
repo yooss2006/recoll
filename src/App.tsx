@@ -1,90 +1,139 @@
-import { useEffect, useReducer, useRef, useState } from "react";
+import React, {
+  useContext,
+  useEffect,
+  useMemo,
+  useReducer,
+  useState,
+} from "react";
 import "./css/common.css";
-import DiaryEditor from "./components/DiaryEditor";
-import { Data, ReducerType } from "./util/type";
-import DiaryList from "./components/DiaryList";
-import { dateArray, getStringDate } from "./util/date";
+import { Data, onDataFunc, onRemoveFunc, ViewMode } from "./util/type";
+import { reducer } from "./util/reducer";
+import DiaryEditor from "./components/Editor/DiaryEditor";
+import DiaryList from "./components/DiaryList/DiaryList";
+import CheckSelectMode from "./components/SelectMode/CheckSelectMode";
+import SelectMode from "./components/SelectMode/SelectMode";
 
-const dummyData: Data[] = [
-  { id: 0, title: "2021-04-22", desc: "아주 좋다", emotion: "보통" },
-  { id: 1, title: "2022-03-21", desc: "아주 좋다", emotion: "나쁨" },
-  {
-    id: 2,
-    title: "2022-04-14",
-    desc: "아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다아주 좋다",
-    emotion: "좋음",
-  },
-  // { id: 3, title: "2022-04-21", desc: "아주 좋다", emotion: "보통" },
-];
+//Context API
+const DiaryStateContext = React.createContext<{
+  data: Data[];
+  viewMode: ViewMode;
+} | null>(null);
+const DiaryOnFunchContext = React.createContext<{
+  onCreate: onDataFunc;
+  onEdit: onDataFunc;
+  onRemove: onRemoveFunc;
+  setIsEditorMode: React.Dispatch<React.SetStateAction<boolean>>;
+  calendarSelectDateChange: (date: string) => void;
+} | null>(null);
 
-const reducer = (state: Data[], action: ReducerType) => {
-  let newState = [];
-  switch (action.type) {
-    case "CREATE": {
-      const newItem = {
-        ...action.data,
-      };
-      newState = [...state, newItem];
-      break;
-    }
-    // case "REMOVE": {
-    //   newState = state.filter((item) => item.id !== action.targetId);
-    //   break;
-    // }
-    // case "EDIT": {
-    //   newState = state.map((item) =>
-    //     item.id === action.data.id ? { ...action.data } : item
-    //   );
-    //   break;
-    // }
-    default:
-      return state;
-  }
-  localStorage.setItem("diary", JSON.stringify(newState));
-  return newState;
+//custom hook으로 null 방지
+export const useContextState = () => {
+  const state = useContext(DiaryStateContext);
+  if (!state) throw new Error("Cannot find state");
+  return state;
+};
+export const useContextOnFunc = () => {
+  const func = useContext(DiaryOnFunchContext);
+  if (!func) throw new Error("Cannot find func");
+  return func;
 };
 
-function App() {
-  const [data, dispatch] = useReducer(reducer, dummyData);
-  const curDate = new Date();
-  const dataId = useRef(0);
+export function App() {
+  const [data, dispatch] = useReducer(reducer, []);
+  const [isEditorMode, setIsEditorMode] = useState(false);
+  const [viewMode, setViewMode] = useState({
+    name: "calendar",
+    isActivate: false,
+    selectDate: "",
+  });
+
   useEffect(() => {
-    if (data.length >= 1) {
-      dataId.current = data[data.length - 1].id + 1;
+    const localData = localStorage.getItem("diaryData");
+    if (localData) {
+      const diaryList: Data[] = JSON.parse(localData);
+      if (diaryList.length >= 1) {
+        const sortData = diaryList.sort((a: Data, b: Data): number => {
+          return (
+            parseInt(b.title.split("-").join("")) -
+            parseInt(a.title.split("-").join(""))
+          );
+        });
+        dispatch({ type: "INIT", data: sortData });
+      }
     }
   }, []);
 
-  const filterData = data
-    .filter((item) =>
-      dateArray(curDate).includes(getStringDate(new Date(item.title)))
-    )
-    .sort((a: Data, b: Data): number => {
-      return (
-        parseInt(b.title.split("-").join("")) -
-        parseInt(a.title.split("-").join(""))
-      );
-    });
-
-  const onCreate = (date: string, content: string, emotion: string): void => {
+  const onCreate = (title: string, content: string, emotion: string): void => {
     dispatch({
       type: "CREATE",
       data: {
-        id: dataId.current,
-        title: date,
+        title: title,
         desc: content,
         emotion: emotion,
       },
     });
   };
 
+  const onEdit = (title: string, content: string, emotion: string) => {
+    dispatch({
+      type: "EDIT",
+      data: {
+        title: title,
+        desc: content,
+        emotion: emotion,
+      },
+    });
+  };
+
+  const onRemove = (title: string) => {
+    dispatch({
+      type: "REMOVE",
+      data: {
+        title: title,
+        desc: "",
+        emotion: "",
+      },
+    });
+  };
+
+  const calendarSelectDateChange = (date: string): void => {
+    setViewMode({ ...viewMode, isActivate: true, selectDate: date });
+  };
+
+  const memoizedFunc = useMemo(() => {
+    return {
+      onCreate,
+      onEdit,
+      onRemove,
+      setIsEditorMode,
+      calendarSelectDateChange,
+    };
+  }, []);
+
   return (
-    <div className="App">
-      <div className="container">
-        <h1 className="blind">회상</h1>
-        <DiaryList data={filterData} />
-        <DiaryEditor data={filterData} onCreate={onCreate} />
-      </div>
-    </div>
+    <DiaryStateContext.Provider value={{ data, viewMode }}>
+      <DiaryOnFunchContext.Provider value={memoizedFunc}>
+        <div className="App">
+          <main className="container">
+            <div className="mainContainer">
+              <header>
+                <h1>Recoll-Diary</h1>
+
+                <CheckSelectMode
+                  setViewMode={setViewMode}
+                  isEditorMode={isEditorMode}
+                />
+              </header>
+
+              <DiaryList />
+
+              <DiaryEditor firstData={data[0]} isEditorMode={isEditorMode} />
+            </div>
+            {viewMode.isActivate ? <SelectMode /> : null}
+          </main>
+        </div>
+      </DiaryOnFunchContext.Provider>
+    </DiaryStateContext.Provider>
   );
 }
 

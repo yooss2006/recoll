@@ -1,5 +1,4 @@
 export type Data = {
-  id: number;
   title: string;
   desc: string;
   emotion: string;
@@ -9,19 +8,46 @@ export type DataProps = {
   data: Data;
 };
 
-export type DataArrayProps = {
-  data: Data[];
-};
 export type DataEditorProps = {
-  data: Data[];
-  onCreate: (date: string, content: string, emotion: string) => void;
+  firstData: Data;
+  isEditorMode: boolean;
 };
 
 export type EmotionProps = {
   emotionWord: string;
 };
 
-export type ReducerType = {
-  type: String;
-  data: Data;
+export type ReducerType =
+  | {
+      type: "INIT";
+      data: Data[];
+    }
+  | {
+      type: "CREATE" | "EDIT" | "REMOVE";
+      data: Data;
+    };
+
+export type onDataFunc = (
+  title: string,
+  content: string,
+  emotion: string
+) => void;
+
+export type onRemoveFunc = (title: string) => void;
+
+export type CheckSelectModeProps = {
+  setViewMode: React.Dispatch<
+    React.SetStateAction<{
+      name: string;
+      isActivate: boolean;
+      selectDate: string;
+    }>
+  >;
+  isEditorMode: boolean;
+};
+
+export type ViewMode = {
+  name: string;
+  isActivate: boolean;
+  selectDate: string;
 };
