@@ -8,7 +8,7 @@ const Emotion = ({ emotionWord }: EmotionProps) => {
   if (emotion) {
     return (
       <div className="Emotion">
-        <h4 className="blind">{emotion.desc}</h4>
+        <p className="blind">{emotion.desc}</p>
         {emotion.icon}
       </div>
     );

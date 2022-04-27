@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useContextOnFunc } from "../App";
-import { getStringDate } from "../util/date";
-import { emotionList } from "../util/emotionList";
-import { DataEditorProps } from "../util/type";
+import { useContextOnFunc } from "../../App";
+import { getStringDate } from "../../util/date";
+import { emotionList } from "../../util/emotionList";
+import { DataEditorProps } from "../../util/type";
 
 const DiaryEditor = ({ firstData, isEditorMode }: DataEditorProps) => {
   const [content, setContent] = useState({ emotion: "보통", desc: "" });
@@ -59,6 +59,7 @@ const DiaryEditor = ({ firstData, isEditorMode }: DataEditorProps) => {
           <ul className="emotionList">
             {emotionList.map((item) => (
               <li key={item.emotion_id}>
+                <p className="blind">{item.desc}</p>
                 <input
                   type="radio"
                   name="emotionCheck"

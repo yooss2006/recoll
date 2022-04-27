@@ -36,16 +36,18 @@ export type onDataFunc = (
 export type onRemoveFunc = (title: string) => void;
 
 export type CheckSelectModeProps = {
-  viewMode: {
-    name: string;
-    isActivate: boolean;
-  }[];
   setViewMode: React.Dispatch<
-    React.SetStateAction<
-      {
-        name: string;
-        isActivate: boolean;
-      }[]
-    >
+    React.SetStateAction<{
+      name: string;
+      isActivate: boolean;
+      selectDate: string;
+    }>
   >;
+  isEditorMode: boolean;
+};
+
+export type ViewMode = {
+  name: string;
+  isActivate: boolean;
+  selectDate: string;
 };
