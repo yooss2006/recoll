@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useContextState } from "../../App";
 import DiaryItem from "./DiaryItem";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
@@ -8,12 +8,12 @@ import { dateArray, getStringDate } from "../../util/date";
 const DiaryList = () => {
   const [slideNumber, setSlideNumber] = useState(0);
   const data = useContextState().data;
+  const calendarMode = useContextState().calendarMode;
   const filterData = data.filter((item) =>
     dateArray().includes(getStringDate(new Date(item.title)))
   );
-  const isViewMode = useContextState().viewMode.isActivate;
-  const selectDate = useContextState().viewMode.selectDate;
 
+  //일기 슬라이드
   const handleSlideNumber = (direction: string) => {
     if (direction === "left" && slideNumber !== 0)
       setSlideNumber(slideNumber - 1);
@@ -21,12 +21,14 @@ const DiaryList = () => {
       setSlideNumber(slideNumber + 1);
   };
 
-  if (isViewMode) {
-    const selectData = data.find((item) => item.title === selectDate);
+  if (calendarMode.isActivate) {
+    const selectData = data.find(
+      (item) => item.title === calendarMode.selectDate
+    );
     return (
       <section className="DiaryList">
-        <h2 className="blind">일기</h2>
-        <DiaryItem key={selectDate} data={selectData} />
+        <h2 className="blind">선택한 일기</h2>
+        <DiaryItem key={calendarMode.selectDate} data={selectData} />
       </section>
     );
   } else {

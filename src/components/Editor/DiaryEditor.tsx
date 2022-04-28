@@ -1,11 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useContextOnFunc } from "../../App";
+import { useContextOnFunc, useContextState } from "../../App";
 import { getStringDate } from "../../util/date";
-import { emotionList } from "../../util/emotionList";
-import { DataEditorProps } from "../../util/type";
+import { EmotionList } from "../../util/emotionList";
 
-const DiaryEditor = ({ firstData, isEditorMode }: DataEditorProps) => {
+const DiaryEditor = () => {
   const [content, setContent] = useState({ emotion: "보통", desc: "" });
+  const isEditorMode = useContextState().isEditorMode;
+  const firstData = useContextState().data[0];
   const onFunc = useContextOnFunc();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -17,7 +18,7 @@ const DiaryEditor = ({ firstData, isEditorMode }: DataEditorProps) => {
 
   const handleReset = () => {
     setContent({ emotion: "보통", desc: "" });
-    onFunc.setIsEditorMode(false);
+    onFunc.toggleEditMode(false);
   };
 
   const checkWriteTodayDiary = () => {
@@ -57,7 +58,7 @@ const DiaryEditor = ({ firstData, isEditorMode }: DataEditorProps) => {
         <dt>오늘의 기분 :</dt>
         <dd>
           <ul className="emotionList">
-            {emotionList.map((item) => (
+            {EmotionList.map((item) => (
               <li key={item.emotion_id}>
                 <p className="blind">{item.desc}</p>
                 <input

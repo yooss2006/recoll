@@ -1,12 +1,10 @@
 import React from "react";
 import { BsFillCalendarDateFill } from "react-icons/bs";
-import { useContextState } from "../../App";
-import { CheckSelectModeProps } from "../../util/type";
-const CheckSelectMode = ({
-  setViewMode,
-  isEditorMode,
-}: CheckSelectModeProps) => {
-  const viewMode = useContextState().viewMode;
+import { useContextOnFunc, useContextState } from "../../App";
+const CheckSelectMode = () => {
+  const isCalendarMode = useContextState().calendarMode.isActivate;
+  const isEditorMode = useContextState().isEditorMode;
+  const toggleCalendarMode = useContextOnFunc().toggleCalendarMode;
 
   return (
     <nav className="nav">
@@ -19,16 +17,13 @@ const CheckSelectMode = ({
             type="checkBox"
             name="selectModeCheck"
             id="calendar"
-            checked={viewMode.isActivate}
+            checked={isCalendarMode}
             onChange={() => {
               if (isEditorMode) {
                 alert("수정 중엔 사용할 수 없습니다.");
                 return;
               }
-              setViewMode({
-                ...viewMode,
-                isActivate: !viewMode.isActivate,
-              });
+              toggleCalendarMode(isCalendarMode);
             }}
           />
           <label htmlFor="calendar">

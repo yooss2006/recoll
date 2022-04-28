@@ -1,3 +1,4 @@
+//date 객체를 yyyy-mm-dd 형식의 문자열로 바꿔준다.
 export const getStringDate = (date: Date): string => {
   let year = date.getFullYear();
   let month: string | number = date.getMonth() + 1;
@@ -11,6 +12,7 @@ export const getStringDate = (date: Date): string => {
   return `${year}-${month}-${day}`;
 };
 
+//오늘을 기준으로 오늘, 어제, 일주일 전, 한달 전, 일년 전의 날짜가 담긴 배열을 반환한다.
 export const dateArray = (): string[] => {
   const date = new Date();
   return [
@@ -32,6 +34,7 @@ export const dateArray = (): string[] => {
   ];
 };
 
+//위 dateArray안에 원하는 날짜가 있다면 그 날의 정보를 반환한다. "오늘", "어제" 등
 export const deteName = (title: string) => {
   switch (dateArray().indexOf(title)) {
     case 0:

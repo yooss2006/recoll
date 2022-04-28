@@ -6,7 +6,6 @@ import { getStringDate } from "../../util/date";
 const Calendar = () => {
   const data = useContextState().data;
   const calendarSelectDateChange = useContextOnFunc().calendarSelectDateChange;
-
   const [startDate, setStartDate] = useState(new Date(data[0].title));
 
   useEffect(() => {
@@ -19,7 +18,7 @@ const Calendar = () => {
 
   return (
     <article className="calender">
-      <h2>calender</h2>
+      <h2 className="blind">calender</h2>
       <DatePicker
         showPopperArrow={false}
         fixedHeight

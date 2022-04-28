@@ -152,6 +152,7 @@ h4 {
 }
 .container h1 {
   padding-left: 0.75em;
+  flex: 1;
 }
 
 .DiaryList {
@@ -1187,6 +1188,11 @@ h4 {
   border: none;
   padding: 0.3em;
   border-radius: 5px;
+}
+
+.calender {
+  text-align: center;
+  margin-right: 1em;
 }
 
 /*# sourceMappingURL=common.css.map */

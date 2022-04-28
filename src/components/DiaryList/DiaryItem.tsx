@@ -5,28 +5,29 @@ import { useContextOnFunc, useContextState } from "../../App";
 import { DataProps } from "../../util/type";
 
 const DiaryItem = ({ data }: DataProps) => {
-  const onfunc = useContextOnFunc();
-  const isViewMode = useContextState().viewMode.isActivate;
-
   const [whatItemDay, setWhatItemDay] = useState("오늘");
 
+  const onRemove = useContextOnFunc().onRemove;
+  const toggleEditMode = useContextOnFunc().toggleEditMode;
+  const isCalendarMode = useContextState().calendarMode.isActivate;
+
   useEffect(() => {
-    if (!isViewMode) setWhatItemDay(deteName(data.title));
+    if (!isCalendarMode) setWhatItemDay(deteName(data.title));
   }, [data]);
 
   const isToday = getStringDate(new Date()) === data.title;
 
   const handleEdit = useCallback(() => {
-    onfunc.setIsEditorMode(true);
+    toggleEditMode(true);
   }, []);
 
   const handleRemove = useCallback(() => {
     if (window.confirm("정말로 삭제할까요?")) {
-      onfunc.onRemove(data.title);
+      onRemove(data.title);
     }
   }, []);
 
-  if (isViewMode) {
+  if (isCalendarMode) {
     return (
       <article className="DiaryItem">
         <header>
