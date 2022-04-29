@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import Emotion from "../Emotion";
+import Emotion from "../Emotion/Emotion";
 import { deteName, getStringDate } from "../../util/date";
 import { useContextOnFunc, useContextState } from "../../App";
 import { DataProps } from "../../util/type";

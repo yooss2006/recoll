@@ -1,6 +1,6 @@
 import React from "react";
-import { EmotionList } from "../util/emotionList";
-import { EmotionProps } from "../util/type";
+import { EmotionList } from "./emotionList";
+import { EmotionProps } from "../../util/type";
 
 const Emotion = ({ emotionWord }: EmotionProps) => {
   const emotion = EmotionList.find((item) => item.desc === emotionWord);

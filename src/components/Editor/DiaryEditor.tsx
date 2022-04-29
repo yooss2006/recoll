@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useContextOnFunc, useContextState } from "../../App";
 import { getStringDate } from "../../util/date";
-import { EmotionList } from "../../util/emotionList";
+import { EmotionList } from "../Emotion/emotionList";
 
 const DiaryEditor = () => {
   const [content, setContent] = useState({ emotion: "보통", desc: "" });

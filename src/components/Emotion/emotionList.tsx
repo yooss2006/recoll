@@ -1,6 +1,6 @@
 import { AiOutlineSmile } from "react-icons/ai";
 import { CgSmileNeutral, CgSmileSad } from "react-icons/cg";
-import { EmotionListType } from "./type";
+import { EmotionListType } from "../../util/type";
 
 export const EmotionList: EmotionListType[] = [
   {

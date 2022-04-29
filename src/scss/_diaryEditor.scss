@@ -1,25 +1,26 @@
 @charset "utf-8";
 
 .DiaryEditor {
-  margin: 2em 0 1em;
+  margin-bottom: 2em;
   .todayEmotion {
-    @include flex($a: center, $j: start);
+    @include flex($a: center);
+    padding: 0 1.25em;
     margin-bottom: 1em;
     dt {
-      flex-basis: 50%;
-      text-align: end;
+      font-size: 1.125em;
+      color: white;
     }
     dd {
-      flex-grow: 1;
       .emotionList {
-        @include flex($a: center, $j: center);
+        width: 100%;
+        @include flex($a: center, $j: start);
         li:nth-child(2) {
-          margin: 0 1.5em;
+          margin: 0 1em;
         }
         svg {
-          width: 2em;
-          height: 2em;
-          color: nth($purple, 1);
+          width: 2.5em;
+          height: 2.5em;
+          color: #383f8f35;
           cursor: pointer;
         }
         input[type="radio"] {
@@ -33,15 +34,18 @@
   }
   textarea {
     width: 100%;
-    min-height: 100px;
-    padding: 5px 10px;
+    min-height: 6.25em;
+    padding: 0.625em;
     box-sizing: border-box;
     border-radius: 5px;
     border: none;
     resize: none;
     color: nth($purple, 2);
-    font-size: 16px;
-    word-spacing: -3px;
+    white-space: pre-line;
+    line-height: 1.2;
+    &:focus {
+      outline: 1px solid nth($purple, 2);
+    }
     &::placeholder {
       color: nth($gray, 2);
     }
@@ -50,13 +54,11 @@
     @include flex($a: center);
     margin-top: 1em;
     button {
-      padding: 20px 0;
-      margin: 0 5px;
+      width: 49%;
+      padding: 1.25em 0;
       border-radius: 5px;
-      flex-grow: 1;
-      border: 2px solid nth($gray, 1);
       box-sizing: border-box;
-      transition: 0.5s all;
+      transition: 0.3s all;
       color: white;
       &.reset {
         background-color: nth($purple, 2);
@@ -67,7 +69,6 @@
       &:hover {
         color: nth($purple, 2);
         background: white;
-        border: 2px solid nth($purple, 1);
       }
     }
   }

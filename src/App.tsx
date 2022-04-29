@@ -92,10 +92,12 @@ export function App() {
   };
 
   const toggleCalendarMode = (isCalendarMode: boolean): void => {
-    setCalendarMode({
-      ...calendarMode,
-      isActivate: isCalendarMode ? false : true,
-    });
+    if (data.length)
+      setCalendarMode({
+        ...calendarMode,
+        isActivate: isCalendarMode ? false : true,
+      });
+    else alert("데이터가 업습니다. 일기를 작성해주세요.");
   };
 
   const calendarSelectDateChange = (date: string): void => {
@@ -111,24 +113,22 @@ export function App() {
       toggleEditMode,
       calendarSelectDateChange,
     };
-  }, []);
+  }, [data]);
 
   return (
     <DiaryStateContext.Provider value={{ data, calendarMode, isEditorMode }}>
       <DiaryOnFunchContext.Provider value={memoizedFunc}>
         <div className="App">
           <main className="container">
-            <div className="mainContainer">
-              <header>
-                <h1>Recoll-Diary</h1>
+            <header>
+              <h1>Recoll-Diary</h1>
 
-                {calendarMode.isActivate ? <Calendar /> : null}
-                <CheckSelectMode />
-              </header>
+              {calendarMode.isActivate ? <Calendar /> : null}
+              <CheckSelectMode />
+            </header>
 
-              <DiaryList />
-              {calendarMode.isActivate ? null : <DiaryEditor />}
-            </div>
+            <DiaryList />
+            {calendarMode.isActivate ? null : <DiaryEditor />}
           </main>
         </div>
       </DiaryOnFunchContext.Provider>
