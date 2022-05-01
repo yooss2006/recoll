@@ -36,7 +36,16 @@ const DiaryItem = ({ data }: DataProps) => {
             <h3>{data.title}</h3>
           </div>
         </header>
-        <p className="desc">{data.desc}</p>
+        <div className="desc">
+          {data.desc &&
+            data.desc.map((item, index) => {
+              return (
+                <div key={index} className="lineBreak">
+                  <p>{item}</p>
+                </div>
+              );
+            })}
+        </div>
       </article>
     );
   } else {
@@ -56,10 +65,18 @@ const DiaryItem = ({ data }: DataProps) => {
             </li>
           </ul>
         </header>
-        <p className="desc">
-          <strong className="titleDesc">{whatItemDay}의 일기</strong>
-          {data.desc}
-        </p>
+        <div className="desc">
+          <p>
+            <strong className="titleDesc">{whatItemDay}의 일기</strong>
+          </p>
+          {data.desc.map((item, index) => {
+            return (
+              <div key={index} className="lineBreak">
+                <p>{item}</p>
+              </div>
+            );
+          })}
+        </div>
       </article>
     );
   }

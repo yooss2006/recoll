@@ -54,7 +54,11 @@ export function App() {
     }
   }, []);
 
-  const onCreate = (title: string, content: string, emotion: string): void => {
+  const onCreate = (
+    title: string,
+    content: string[],
+    emotion: string
+  ): void => {
     dispatch({
       type: "CREATE",
       data: {
@@ -65,7 +69,7 @@ export function App() {
     });
   };
 
-  const onEdit = (title: string, content: string, emotion: string) => {
+  const onEdit = (title: string, content: string[], emotion: string) => {
     dispatch({
       type: "EDIT",
       data: {
@@ -81,7 +85,7 @@ export function App() {
       type: "REMOVE",
       data: {
         title: title,
-        desc: "",
+        desc: [""],
         emotion: "",
       },
     });

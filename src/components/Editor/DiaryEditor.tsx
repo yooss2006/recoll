@@ -12,7 +12,10 @@ const DiaryEditor = () => {
 
   useEffect(() => {
     if (isEditorMode) {
-      setContent({ emotion: firstData.emotion, desc: firstData.desc });
+      setContent({
+        emotion: firstData.emotion,
+        desc: firstData.desc.join("\n"),
+      });
     }
   }, [isEditorMode]);
 
@@ -36,7 +39,11 @@ const DiaryEditor = () => {
     }
     //수정모드
     if (isEditorMode) {
-      onFunc.onEdit(getStringDate(new Date()), content.desc, content.emotion);
+      onFunc.onEdit(
+        getStringDate(new Date()),
+        content.desc.split("\n"),
+        content.emotion
+      );
       handleReset();
       return;
     }
@@ -47,7 +54,11 @@ const DiaryEditor = () => {
       return;
     }
     //글 작성 모드
-    onFunc.onCreate(getStringDate(new Date()), content.desc, content.emotion);
+    onFunc.onCreate(
+      getStringDate(new Date()),
+      content.desc.split("\n"),
+      content.emotion
+    );
     handleReset();
   };
 

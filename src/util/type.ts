@@ -1,6 +1,6 @@
 export type Data = {
   title: string;
-  desc: string;
+  desc: string[];
   emotion: string;
 };
 export type calendarMode = {
@@ -32,7 +32,7 @@ export type OnFuncContext = {
 //OnFuncContext의 재료들
 export type onDataFunc = (
   title: string,
-  content: string,
+  content: string[],
   emotion: string
 ) => void;
 export type onRemoveFunc = (title: string) => void;
