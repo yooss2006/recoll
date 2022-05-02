@@ -11,7 +11,6 @@ import { reducer } from "./util/reducer";
 import DiaryEditor from "./components/Editor/DiaryEditor";
 import DiaryList from "./components/DiaryList/DiaryList";
 import CheckSelectMode from "./components/SelectMode/CheckSelectMode";
-import Calendar from "./components/SelectMode/Calendar";
 
 //Context API
 const DiaryStateContext = React.createContext<StateContext | null>(null);
@@ -126,8 +125,6 @@ export function App() {
           <main className="container">
             <header>
               <h1>Recoll-Diary</h1>
-
-              {calendarMode.isActivate ? <Calendar /> : null}
               <CheckSelectMode />
             </header>
 
