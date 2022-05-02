@@ -1,32 +1,33 @@
 import React, { useCallback, useEffect, useState } from "react";
-import Emotion from "../Emotion";
+import Emotion from "../Emotion/Emotion";
 import { deteName, getStringDate } from "../../util/date";
 import { useContextOnFunc, useContextState } from "../../App";
 import { DataProps } from "../../util/type";
 
 const DiaryItem = ({ data }: DataProps) => {
-  const onfunc = useContextOnFunc();
-  const isViewMode = useContextState().viewMode.isActivate;
-
   const [whatItemDay, setWhatItemDay] = useState("오늘");
 
+  const onRemove = useContextOnFunc().onRemove;
+  const toggleEditMode = useContextOnFunc().toggleEditMode;
+  const isCalendarMode = useContextState().calendarMode.isActivate;
+
   useEffect(() => {
-    if (!isViewMode) setWhatItemDay(deteName(data.title));
+    if (!isCalendarMode) setWhatItemDay(deteName(data.title));
   }, [data]);
 
   const isToday = getStringDate(new Date()) === data.title;
 
   const handleEdit = useCallback(() => {
-    onfunc.setIsEditorMode(true);
+    toggleEditMode(true);
   }, []);
 
   const handleRemove = useCallback(() => {
     if (window.confirm("정말로 삭제할까요?")) {
-      onfunc.onRemove(data.title);
+      onRemove(data.title);
     }
   }, []);
 
-  if (isViewMode) {
+  if (isCalendarMode) {
     return (
       <article className="DiaryItem">
         <header>
@@ -35,7 +36,16 @@ const DiaryItem = ({ data }: DataProps) => {
             <h3>{data.title}</h3>
           </div>
         </header>
-        <p className="desc">{data.desc}</p>
+        <div className="desc">
+          {data.desc &&
+            data.desc.map((item, index) => {
+              return (
+                <div key={index} className="lineBreak">
+                  <p>{item}</p>
+                </div>
+              );
+            })}
+        </div>
       </article>
     );
   } else {
@@ -55,10 +65,18 @@ const DiaryItem = ({ data }: DataProps) => {
             </li>
           </ul>
         </header>
-        <p className="desc">
-          <strong className="titleDesc">{whatItemDay}의 일기</strong>
-          {data.desc}
-        </p>
+        <div className="desc">
+          <p>
+            <strong className="titleDesc">{whatItemDay}의 일기</strong>
+          </p>
+          {data.desc.map((item, index) => {
+            return (
+              <div key={index} className="lineBreak">
+                <p>{item}</p>
+              </div>
+            );
+          })}
+        </div>
       </article>
     );
   }

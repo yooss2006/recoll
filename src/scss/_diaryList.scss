@@ -1,11 +1,10 @@
 @charset "utf-8";
 .DiaryList {
-  width: 500px;
+  margin-bottom: 20px;
   background-color: white;
   border-radius: 5px;
   overflow: hidden;
   position: relative;
-
   .slideBtn {
     height: 100%;
     position: absolute;
@@ -59,7 +58,7 @@
       .btns {
         @include flex($a: center, $j: end);
         button {
-          margin: 0px 10px;
+          margin: 0px 0.625em;
         }
         &.hide {
           @extend .hide;
@@ -69,7 +68,7 @@
     .titleDesc {
       display: block;
       font-size: 0.8em;
-      margin-bottom: 2em;
+      margin-bottom: 1.5em;
       &::after,
       &::before {
         content: "-";
@@ -79,10 +78,19 @@
     .desc {
       padding: 1em;
       border-radius: 5px;
-      background-color: nth($purple, 2);
-      color: nth($gray, 1);
+      background: nth($purple, 2);
+      background: linear-gradient(
+        -10deg,
+        nth($purple, 1),
+        nth($purple, 2) 60%
+      ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+      color: white;
       word-break: keep-all;
       overflow-wrap: break-word;
+      .lineBreak {
+        line-height: 1.8;
+      }
     }
   }
 }

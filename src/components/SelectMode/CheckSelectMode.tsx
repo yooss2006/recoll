@@ -1,16 +1,17 @@
 import React from "react";
 import { BsFillCalendarDateFill } from "react-icons/bs";
-import { useContextState } from "../../App";
-import { CheckSelectModeProps } from "../../util/type";
-const CheckSelectMode = ({
-  setViewMode,
-  isEditorMode,
-}: CheckSelectModeProps) => {
-  const viewMode = useContextState().viewMode;
+import { useContextOnFunc, useContextState } from "../../App";
+import Calendar from "./Calendar";
+
+const CheckSelectMode = () => {
+  const isCalendarMode = useContextState().calendarMode.isActivate;
+  const isEditorMode = useContextState().isEditorMode;
+  const toggleCalendarMode = useContextOnFunc().toggleCalendarMode;
 
   return (
     <nav className="nav">
       <ul>
+        <li> {isCalendarMode ? <Calendar /> : null}</li>
         <li>
           <p className="blind">
             달력의 아이콘을 클릭하시면 달력 기능을 사용하실 수 있습니다.
@@ -19,16 +20,13 @@ const CheckSelectMode = ({
             type="checkBox"
             name="selectModeCheck"
             id="calendar"
-            checked={viewMode.isActivate}
+            checked={isCalendarMode}
             onChange={() => {
               if (isEditorMode) {
                 alert("수정 중엔 사용할 수 없습니다.");
                 return;
               }
-              setViewMode({
-                ...viewMode,
-                isActivate: !viewMode.isActivate,
-              });
+              toggleCalendarMode(isCalendarMode);
             }}
           />
           <label htmlFor="calendar">

@@ -51,5 +51,5 @@ h3,
 h4 {
   font-family: $title;
 }
-@import "app", "diaryList", "diaryEditor", "checkSelectMode", "selectMode";
+@import "app", "diaryList", "diaryEditor";
 @import "calendar";

@@ -6,42 +6,32 @@ import React, {
   useState,
 } from "react";
 import "./css/common.css";
-import { Data, onDataFunc, onRemoveFunc, ViewMode } from "./util/type";
+import { Data, StateContext, OnFuncContext } from "./util/type";
 import { reducer } from "./util/reducer";
 import DiaryEditor from "./components/Editor/DiaryEditor";
 import DiaryList from "./components/DiaryList/DiaryList";
 import CheckSelectMode from "./components/SelectMode/CheckSelectMode";
-import SelectMode from "./components/SelectMode/SelectMode";
 
 //Context API
-const DiaryStateContext = React.createContext<{
-  data: Data[];
-  viewMode: ViewMode;
-} | null>(null);
-const DiaryOnFunchContext = React.createContext<{
-  onCreate: onDataFunc;
-  onEdit: onDataFunc;
-  onRemove: onRemoveFunc;
-  setIsEditorMode: React.Dispatch<React.SetStateAction<boolean>>;
-  calendarSelectDateChange: (date: string) => void;
-} | null>(null);
+const DiaryStateContext = React.createContext<StateContext | null>(null);
+const DiaryOnFunchContext = React.createContext<OnFuncContext | null>(null);
 
 //custom hook으로 null 방지
 export const useContextState = () => {
   const state = useContext(DiaryStateContext);
-  if (!state) throw new Error("Cannot find state");
+  if (!state) throw new Error("state를 찾을 수 없습니다.");
   return state;
 };
 export const useContextOnFunc = () => {
   const func = useContext(DiaryOnFunchContext);
-  if (!func) throw new Error("Cannot find func");
+  if (!func) throw new Error("해당 함수가 없습니다.");
   return func;
 };
 
 export function App() {
   const [data, dispatch] = useReducer(reducer, []);
   const [isEditorMode, setIsEditorMode] = useState(false);
-  const [viewMode, setViewMode] = useState({
+  const [calendarMode, setCalendarMode] = useState({
     name: "calendar",
     isActivate: false,
     selectDate: "",
@@ -63,7 +53,11 @@ export function App() {
     }
   }, []);
 
-  const onCreate = (title: string, content: string, emotion: string): void => {
+  const onCreate = (
+    title: string,
+    content: string[],
+    emotion: string
+  ): void => {
     dispatch({
       type: "CREATE",
       data: {
@@ -74,7 +68,7 @@ export function App() {
     });
   };
 
-  const onEdit = (title: string, content: string, emotion: string) => {
+  const onEdit = (title: string, content: string[], emotion: string) => {
     dispatch({
       type: "EDIT",
       data: {
@@ -90,14 +84,27 @@ export function App() {
       type: "REMOVE",
       data: {
         title: title,
-        desc: "",
+        desc: [""],
         emotion: "",
       },
     });
   };
 
+  const toggleEditMode = (isEdit: boolean) => {
+    setIsEditorMode(isEdit);
+  };
+
+  const toggleCalendarMode = (isCalendarMode: boolean): void => {
+    if (data.length)
+      setCalendarMode({
+        ...calendarMode,
+        isActivate: isCalendarMode ? false : true,
+      });
+    else alert("데이터가 업습니다. 일기를 작성해주세요.");
+  };
+
   const calendarSelectDateChange = (date: string): void => {
-    setViewMode({ ...viewMode, isActivate: true, selectDate: date });
+    setCalendarMode({ ...calendarMode, isActivate: true, selectDate: date });
   };
 
   const memoizedFunc = useMemo(() => {
@@ -105,31 +112,24 @@ export function App() {
       onCreate,
       onEdit,
       onRemove,
-      setIsEditorMode,
+      toggleCalendarMode,
+      toggleEditMode,
       calendarSelectDateChange,
     };
-  }, []);
+  }, [data]);
 
   return (
-    <DiaryStateContext.Provider value={{ data, viewMode }}>
+    <DiaryStateContext.Provider value={{ data, calendarMode, isEditorMode }}>
       <DiaryOnFunchContext.Provider value={memoizedFunc}>
         <div className="App">
           <main className="container">
-            <div className="mainContainer">
-              <header>
-                <h1>Recoll-Diary</h1>
+            <header>
+              <h1>Recoll-Diary</h1>
+              <CheckSelectMode />
+            </header>
 
-                <CheckSelectMode
-                  setViewMode={setViewMode}
-                  isEditorMode={isEditorMode}
-                />
-              </header>
-
-              <DiaryList />
-
-              <DiaryEditor firstData={data[0]} isEditorMode={isEditorMode} />
-            </div>
-            {viewMode.isActivate ? <SelectMode /> : null}
+            <DiaryList />
+            {calendarMode.isActivate ? null : <DiaryEditor />}
           </main>
         </div>
       </DiaryOnFunchContext.Provider>

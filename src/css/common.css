@@ -86,7 +86,13 @@ button {
   color: inherit;
 }
 
-.blind, .nav li input[type=checkBox], .DiaryEditor .todayEmotion dd .emotionList input[type=radio],
+textarea,
+input {
+  font-size: inherit;
+  font-family: inherit;
+}
+
+.blind, .DiaryEditor .todayEmotion dd .emotionList input[type=radio], .container .nav li input[type=checkBox],
 hr,
 legend {
   position: absolute;
@@ -130,18 +136,23 @@ h4 {
   font-family: "HSGyeoulNoonkott20";
 }
 
+.App {
+  width: 100%;
+  height: 100vh;
+  background: url(../assets/background.jpg) no-repeat center/cover;
+}
+
 .container {
-  width: fit-content;
-  background-color: #d6daff;
-  box-shadow: 0 0 7px 2px #8a93ff;
-  padding: 15px 15px 5px;
-  margin: 10px auto;
+  width: 90%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 1em 1.2em 0.3125em;
   box-sizing: border-box;
-  border-radius: 5px;
-  display: flex;
-  justify-content: space-between;
-  align-items: stretch;
-  flex-wrap: nowrap;
+  border-radius: 10px;
+  background: url("../assets/background.jpg") no-repeat top/120%;
+  translate: all 1s;
 }
 .container header {
   display: flex;
@@ -152,10 +163,40 @@ h4 {
 }
 .container h1 {
   padding-left: 0.75em;
+  flex: 1;
+  font-size: 1.125rem;
+  color: white;
+}
+.container .nav ul {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+.container .nav li {
+  margin: 0 0.75em;
+}
+.container .nav li svg {
+  width: 1.5em;
+  height: 1.5em;
+  color: #383f8f;
+}
+.container .nav li input:checked + label svg {
+  color: white;
 }
 
+@media screen and (max-width: 1024px) {
+  .App {
+    font-size: 14px;
+  }
+}
+@media screen and (max-width: 600px) {
+  .App {
+    font-size: 12px;
+  }
+}
 .DiaryList {
-  width: 500px;
+  margin-bottom: 20px;
   background-color: white;
   border-radius: 5px;
   overflow: hidden;
@@ -226,12 +267,12 @@ h4 {
   flex-wrap: nowrap;
 }
 .DiaryList .DiaryItem header .btns button {
-  margin: 0px 10px;
+  margin: 0px 0.625em;
 }
 .DiaryList .DiaryItem .titleDesc {
   display: block;
   font-size: 0.8em;
-  margin-bottom: 2em;
+  margin-bottom: 1.5em;
 }
 .DiaryList .DiaryItem .titleDesc::after, .DiaryList .DiaryItem .titleDesc::before {
   content: "-";
@@ -239,42 +280,46 @@ h4 {
 .DiaryList .DiaryItem .desc {
   padding: 1em;
   border-radius: 5px;
-  background-color: #383f8f;
-  color: #d6daff;
+  background: #383f8f;
+  background: linear-gradient(-10deg, #8a93ff, #383f8f 60%);
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  color: white;
   word-break: keep-all;
   overflow-wrap: break-word;
 }
+.DiaryList .DiaryItem .desc .lineBreak {
+  line-height: 1.8;
+}
 
 .DiaryEditor {
-  margin: 2em 0 1em;
+  margin-bottom: 2em;
 }
 .DiaryEditor .todayEmotion {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: nowrap;
+  padding: 0 1.25em;
+  margin-bottom: 1em;
+}
+.DiaryEditor .todayEmotion dt {
+  font-size: 1.125em;
+  color: white;
+}
+.DiaryEditor .todayEmotion dd .emotionList {
+  width: 100%;
   display: flex;
   justify-content: start;
   align-items: center;
   flex-wrap: nowrap;
-  margin-bottom: 1em;
-}
-.DiaryEditor .todayEmotion dt {
-  flex-basis: 50%;
-  text-align: end;
-}
-.DiaryEditor .todayEmotion dd {
-  flex-grow: 1;
-}
-.DiaryEditor .todayEmotion dd .emotionList {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: nowrap;
 }
 .DiaryEditor .todayEmotion dd .emotionList li:nth-child(2) {
-  margin: 0 1.5em;
+  margin: 0 1em;
 }
 .DiaryEditor .todayEmotion dd .emotionList svg {
-  width: 2em;
-  height: 2em;
-  color: #8a93ff;
+  width: 2.5em;
+  height: 2.5em;
+  color: #383f8f35;
   cursor: pointer;
 }
 .DiaryEditor .todayEmotion dd .emotionList input:checked + label svg {
@@ -282,15 +327,18 @@ h4 {
 }
 .DiaryEditor textarea {
   width: 100%;
-  min-height: 100px;
-  padding: 5px 10px;
+  min-height: 6.25em;
+  padding: 0.625em;
   box-sizing: border-box;
   border-radius: 5px;
   border: none;
   resize: none;
   color: #383f8f;
-  font-size: 16px;
-  word-spacing: -3px;
+  white-space: pre-line;
+  line-height: 1.3;
+}
+.DiaryEditor textarea:focus {
+  outline: 1px solid #383f8f;
 }
 .DiaryEditor textarea::placeholder {
   color: #abaecc;
@@ -303,13 +351,11 @@ h4 {
   margin-top: 1em;
 }
 .DiaryEditor .editorBtnWrapper button {
-  padding: 20px 0;
-  margin: 0 5px;
+  width: 49%;
+  padding: 1.25em 0;
   border-radius: 5px;
-  flex-grow: 1;
-  border: 2px solid #d6daff;
   box-sizing: border-box;
-  transition: 0.5s all;
+  transition: 0.3s all;
   color: white;
 }
 .DiaryEditor .editorBtnWrapper button.reset {
@@ -321,36 +367,6 @@ h4 {
 .DiaryEditor .editorBtnWrapper button:hover {
   color: #383f8f;
   background: white;
-  border: 2px solid #8a93ff;
-}
-
-.nav ul {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: nowrap;
-}
-.nav li {
-  margin: 0 0.5em;
-}
-.nav li svg {
-  color: #383f8f;
-  width: 1.2em;
-  height: 1.2em;
-}
-.nav li input:checked + label svg {
-  color: #8a93ff;
-}
-
-.selectModeContainer {
-  margin-left: 15px;
-}
-.selectModeContainer .calender {
-  text-align: center;
-  margin-top: 1.5em;
-}
-.selectModeContainer .calender h2 {
-  margin-bottom: 0.5em;
 }
 
 .react-datepicker__year-read-view--down-arrow,
@@ -1187,6 +1203,11 @@ h4 {
   border: none;
   padding: 0.3em;
   border-radius: 5px;
+}
+
+.calender {
+  text-align: center;
+  margin-right: 1em;
 }
 
 /*# sourceMappingURL=common.css.map */
